@@ -8,7 +8,7 @@ class Clase_Conectar
 <<<<<<< HEAD
     private $clave = "";  //contrasenia super usuario en mamp
     private $base = "proyecto_final";
-
+     
     public function Procedimiento_Conectar()
     {
         $this->conexion = mysqli_connect($this->server, $this->usu, $this->clave, $this->base);
