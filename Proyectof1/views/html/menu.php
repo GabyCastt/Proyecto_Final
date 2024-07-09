@@ -17,6 +17,9 @@
             <a href='../Dashboard/' class='nav-item nav-link'><i class='fa fa-tachometer-alt me-2'></i>Dashboard</a>
             <a href='./dashboard.php' class='nav-item nav-link'><i class='fa fa-th me-2'></i>Clientes</a>
             <a href='./productos.views.php' class='nav-item nav-link'><i class='fa fa-th me-2'></i>Productos</a>
+            <a href='./amigos.php' class='nav-item nav-link'><i class='fa fa-th me-2'></i>Amigos</a>
+            <a href="./grupos.php" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Grupos</a>
+        
         </div>
     </nav>
 </div>
