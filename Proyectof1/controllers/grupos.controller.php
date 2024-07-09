@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 
 header('Content-Type: application/json');
 $response = ['status' => 'error', 'message' => 'Something went wrong'];
-require_once('../models/grupos_model.php');
+require_once('../models/grupos.model.php');
 
 class GruposController
 {
