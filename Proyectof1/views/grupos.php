@@ -42,30 +42,52 @@
             <?php require_once('./html/header.php') ?>
             <!-- Navbar End -->
 
-            <!-- Recent Products Start -->
+            <!-- Grupos Start -->
             <div class='container-fluid pt-4 px-4'>
                 <button type="button" class="btn btn-primary" onclick="abrirModal('insertar')">
                     Nuevo Grupo
                 </button>
                 <div class='d-flex align-items-center justify-content-between mb-4'>
-                    <h6 class='mb-0'> Lista de grupos </h6>
-                    <br>
-                    <table class="table table-bordered table-striped table-hover table-responsive">
-                        <thead class="table-light">
-                            <tr>
-                                <th>#</th>
-                                <th>Nombre</th>
-                                <th>Precio</th>
-                                <th>Stock</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="cuerpoproductos">
-                        </tbody>
-                    </table>
+                    <h6 class='mb-0'>Lista de grupos</h6>
                 </div>
+                <table class="table table-bordered table-striped table-hover table-responsive">
+                    <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpoGrupos">
+                    </tbody>
+                </table>
             </div>
-            <!-- Recent Products End -->
+            <!-- Grupos End -->
+
+            <!-- Miembros de Grupo Start -->
+            <div class='container-fluid pt-4 px-4'>
+                <h6 class='mb-0'>Miembros del Grupo</h6>
+                <div class='d-flex align-items-center justify-content-between mb-4'>
+                    <button type="button" class="btn btn-primary" onclick="abrirModalMiembro('insertar')">
+                        Agregar Miembro
+                    </button>
+                </div>
+                <table class="table table-bordered table-striped table-hover table-responsive">
+                    <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>ID Grupo</th>
+                            <th>ID Usuario</th>
+                            <th>Fecha de Unión</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpoMiembros">
+                    </tbody>
+                </table>
+            </div>
+            <!-- Miembros de Grupo End -->
 
             <!-- Footer Start -->
             <?php require_once('./html/footer.php') ?>
@@ -78,27 +100,57 @@
     </div>
 
     <!-- Modales -->
-    <div class="modal fade" id="modalProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Modal para Grupos -->
+    <div class="modal fade" id="modalGrupo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Producto</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Grupo</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="frm_productos">
+                <form id="frm_grupos">
                     <div class="modal-body">
-                        <input type="hidden" name="id" id="id">
+                        <input type="hidden" name="id_grupo" id="id_grupo">
                         <div class="form-group">
-                            <label for="nombre">Nombre</label>
-                            <input type="text" name="nombre" id="nombre" placeholder="Ingrese el nombre del producto" class="form-control" required>
+                            <label for="nombre_grupo">Nombre</label>
+                            <input type="text" name="nombre_grupo" id="nombre_grupo" placeholder="Ingrese el nombre del grupo" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label for="precio">Precio</label>
-                            <input type="number" name="precio" id="precio" placeholder="Ingrese el precio del producto" class="form-control" required>
+                            <label for="descripcion">Descripción</label>
+                            <textarea name="descripcion" id="descripcion" placeholder="Ingrese la descripción del grupo" class="form-control" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Miembros de Grupo -->
+    <div class="modal fade" id="modalMiembro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Miembro del Grupo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="frm_miembros">
+                    <div class="modal-body">
+                        <input type="hidden" name="id_miembro" id="id_miembro">
+                        <div class="form-group">
+                            <label for="id_grupo">ID Grupo</label>
+                            <input type="number" name="id_grupo" id="id_grupo" placeholder="Ingrese el ID del grupo" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label for="stock">Stock</label>
-                            <input type="number" name="stock" id="stock" placeholder="Ingrese el stock del producto" class="form-control" required>
+                            <label for="id_usuario">ID Usuario</label>
+                            <input type="number" name="id_usuario" id="id_usuario" placeholder="Ingrese el ID del usuario" class="form-control" required>
+                        </div>
+                        <div class="form-group custom-flatpickr">
+                            <label for="fecha_union">Fecha de Unión</label>
+                            <input type="text" name="fecha_union" id="fecha_union" class="form-control flatpickr" placeholder="Seleccione la fecha de unión" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -112,7 +164,18 @@
 
     <!-- JavaScript Libraries -->
     <?php require_once('./html/scripts.php') ?>
-    <script src="productos.js"></script>
+    <script src="grupos.js"></script>
+    <script src="miembros_grupo.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Inicialización de flatpickr
+            flatpickr('.flatpickr', {
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+                time_24hr: true
+            });
+        });
+    </script>
 </body>
 
 </html>

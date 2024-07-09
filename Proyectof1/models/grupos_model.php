@@ -9,13 +9,11 @@ class Clase_Grupos
         $conexion = $con->Procedimiento_Conectar();
         $query = "SELECT * FROM grupos";
         $resultado = mysqli_query($conexion, $query);
-        
+
         if (!$resultado) {
-            $con->cerrarConexion();
             throw new Exception("Error al listar grupos: " . mysqli_error($conexion));
         }
 
-        $con->cerrarConexion();
         return $resultado;
     }
 
@@ -28,13 +26,11 @@ class Clase_Grupos
         mysqli_stmt_bind_param($stmt, "i", $id_grupo);
         mysqli_stmt_execute($stmt);
         $resultado = mysqli_stmt_get_result($stmt);
-        
+
         if (!$resultado) {
-            $con->cerrarConexion();
             throw new Exception("Error al obtener grupo: " . mysqli_error($conexion));
         }
 
-        $con->cerrarConexion();
         return $resultado;
     }
 
@@ -42,17 +38,15 @@ class Clase_Grupos
     {
         $con = new Clase_Conectar();
         $conexion = $con->Procedimiento_Conectar();
-        $query = "INSERT INTO grupos (id_grupo, nombre_grupo, descripcion) VALUES (NULL, ?, ?)";
+        $query = "INSERT INTO grupos (nombre_grupo, descripcion) VALUES (?, ?)";
         $stmt = mysqli_prepare($conexion, $query);
         mysqli_stmt_bind_param($stmt, "ss", $nombre_grupo, $descripcion);
         $resultado = mysqli_stmt_execute($stmt);
-        
+
         if (!$resultado) {
-            $con->cerrarConexion();
             throw new Exception("Error al insertar grupo: " . mysqli_error($conexion));
         }
 
-        $con->cerrarConexion();
         return $resultado;
     }
 
@@ -64,13 +58,11 @@ class Clase_Grupos
         $stmt = mysqli_prepare($conexion, $query);
         mysqli_stmt_bind_param($stmt, "ssi", $nombre_grupo, $descripcion, $id_grupo);
         $resultado = mysqli_stmt_execute($stmt);
-        
+
         if (!$resultado) {
-            $con->cerrarConexion();
             throw new Exception("Error al actualizar grupo: " . mysqli_error($conexion));
         }
 
-        $con->cerrarConexion();
         return $resultado;
     }
 
@@ -82,13 +74,31 @@ class Clase_Grupos
         $stmt = mysqli_prepare($conexion, $query);
         mysqli_stmt_bind_param($stmt, "i", $id_grupo);
         $resultado = mysqli_stmt_execute($stmt);
-        
+
         if (!$resultado) {
-            $con->cerrarConexion();
             throw new Exception("Error al eliminar grupo: " . mysqli_error($conexion));
         }
 
-        $con->cerrarConexion();
+        return $resultado;
+    }
+
+    public function miembros($id_grupo)
+    {
+        $con = new Clase_Conectar();
+        $conexion = $con->Procedimiento_Conectar();
+        $query = "SELECT u.id_usuario, u.nombre, u.apellido, u.correo_electronico 
+                  FROM usuarios u
+                  INNER JOIN miembros_grupo mg ON u.id_usuario = mg.id_usuario
+                  WHERE mg.id_grupo = ?";
+        $stmt = mysqli_prepare($conexion, $query);
+        mysqli_stmt_bind_param($stmt, "i", $id_grupo);
+        mysqli_stmt_execute($stmt);
+        $resultado = mysqli_stmt_get_result($stmt);
+
+        if (!$resultado) {
+            throw new Exception("Error al obtener miembros del grupo: " . mysqli_error($conexion));
+        }
+
         return $resultado;
     }
 }

@@ -1,78 +1,116 @@
-$(document).ready(function() {
-    // Función para cargar la lista de amigos al cargar la página
-    function cargarListaAmigos() {
+// Función para cargar la lista de amigos
+function cargarListaAmigos() {
+    $.ajax({
+        url: '../controllers/amigos.controller.php',
+        method: 'GET',
+        dataType: 'json',
+        success: function (response) {
+            if (response.status === 'success') {
+                mostrarAmigos(response.data);
+            } else {
+                alert('Error al cargar la lista de amigos');
+            }
+        },
+        error: function () {
+            alert('Error de red al cargar la lista de amigos');
+        }
+    });
+}
+
+// Función para mostrar los amigos en la tabla
+function mostrarAmigos(amigos) {
+    var html = '';
+    amigos.forEach(function (amigo, index) {
+        html += '<tr>';
+        html += '<td>' + (index + 1) + '</td>';
+        html += '<td>' + amigo.nombre + '</td>';
+        html += '<td>';
+        html += '<button type="button" class="btn btn-sm btn-info" onclick="abrirModal(\'editar\', ' + amigo.id_amigo + ')">Editar</button>';
+        html += '<button type="button" class="btn btn-sm btn-danger ms-1" onclick="eliminarAmigo(' + amigo.id_amigo + ')">Eliminar</button>';
+        html += '</td>';
+        html += '</tr>';
+    });
+    $('#cuerpoamigos').html(html);
+}
+
+// Función para abrir el modal para insertar o editar amigo
+function abrirModal(tipo, id_amigo = null) {
+    $('#frm_amigos')[0].reset(); // Limpiar el formulario antes de abrir el modal
+
+    if (tipo === 'editar' && id_amigo) {
+        // Edición: Obtener los datos del amigo por su ID mediante AJAX
         $.ajax({
             url: '../controllers/amigos.controller.php',
             method: 'GET',
-            success: function(response) {
-                // Limpiar la lista actual de amigos
-                $('#listaAmigos').empty();
-
-                // Iterar sobre la respuesta para mostrar cada amigo
-                response.forEach(function(amigo) {
-                    $('#listaAmigos').append(`
-                        <div class="amigo">
-                            <p>ID: ${amigo.id_amigo}</p>
-                            <p>Nombre: ${amigo.nombre}</p>
-                            <p>Apellido: ${amigo.apellido}</p>
-                            <button class="eliminarAmigo" data-id="${amigo.id_amigo}">Eliminar</button>
-                        </div>
-                    `);
-                });
-
-                // Asignar evento al botón de eliminar amigo
-                $('.eliminarAmigo').click(function() {
-                    var idAmigo = $(this).data('id');
-                    eliminarAmigo(idAmigo);
-                });
+            data: { AmigoId: id_amigo },
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    var amigo = response.data;
+                    $('#id_amigo').val(amigo.id_amigo);
+                    $('#nombre_amigo').val(amigo.nombre);
+                    // Aquí puedes asignar otros campos del formulario si es necesario
+                    $('#modalAmigo').modal('show');
+                } else {
+                    alert('Error al cargar los datos del amigo');
+                }
             },
-            error: function(err) {
-                console.error('Error al cargar la lista de amigos:', err);
+            error: function () {
+                alert('Error de red al cargar los datos del amigo');
             }
         });
+    } else {
+        // Inserción: Abrir el modal directamente
+        $('#modalAmigo').modal('show');
     }
+}
 
-    // Cargar la lista de amigos al cargar la página
-    cargarListaAmigos();
-
-    // Manejar el envío del formulario para agregar amigo
-    $('#formAgregarAmigo').submit(function(event) {
-        event.preventDefault();
-        var idUsuario2 = $('#idUsuario2').val();
-        agregarAmigo(idUsuario2);
+// Función para eliminar un amigo
+function eliminarAmigo(id_amigo) {
+    $.ajax({
+        url: '../controllers/amigos.controller.php',
+        method: 'DELETE',
+        data: JSON.stringify({ id_amigo: id_amigo }),
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function (response) {
+            if (response.status === 'success') {
+                cargarListaAmigos();
+            } else {
+                alert('Error al eliminar amigo');
+            }
+        },
+        error: function () {
+            alert('Error de red al eliminar amigo');
+        }
     });
+}
 
-    // Función para agregar un amigo
-    function agregarAmigo(idUsuario2) {
-        $.ajax({
-            url: '../controllers/amigos.controller.php',
-            method: 'POST',
-            data: { id_usuario2: idUsuario2 },
-            success: function(response) {
-                // Recargar la lista de amigos después de agregar uno nuevo
-                cargarListaAmigos();
-                // Limpiar el campo del formulario
-                $('#idUsuario2').val('');
-            },
-            error: function(err) {
-                console.error('Error al agregar amigo:', err);
-            }
-        });
-    }
+// Función para enviar datos del formulario de amigo mediante AJAX
+$('#frm_amigos').submit(function (event) {
+    event.preventDefault();
+    var formData = $(this).serialize();
 
-    // Función para eliminar un amigo
-    function eliminarAmigo(idAmigo) {
-        $.ajax({
-            url: '../controllers/amigos.controller.php',
-            method: 'POST',
-            data: { id_amigo: idAmigo },
-            success: function(response) {
-                // Recargar la lista de amigos después de eliminar uno
+    $.ajax({
+        url: '../controllers/amigos.controller.php',
+        method: 'POST',
+        data: formData,
+        dataType: 'json',
+        success: function (response) {
+            if (response.status === 'success') {
+                $('#modalAmigo').modal('hide');
                 cargarListaAmigos();
-            },
-            error: function(err) {
-                console.error('Error al eliminar amigo:', err);
+            } else {
+                alert('Error al guardar amigo');
             }
-        });
-    }
+        },
+        error: function () {
+            alert('Error de red al guardar amigo');
+        }
+    });
+});
+
+// Document Ready: Cargar lista de amigos al cargar la página
+$(document).ready(function () {
+    cargarListaAmigos();
 });

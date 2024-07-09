@@ -1,7 +1,7 @@
 <?php
 require_once('../config/conexion.php');
 
-class Clase_Miembros_Grupos
+class Clase_Miembros_Grupo
 {
     public function todos()
     {
@@ -9,13 +9,11 @@ class Clase_Miembros_Grupos
         $conexion = $con->Procedimiento_Conectar();
         $query = "SELECT * FROM miembros_grupo";
         $resultado = mysqli_query($conexion, $query);
-        
+
         if (!$resultado) {
-            $con->cerrarConexion();
-            throw new Exception("Error al listar miembros: " . mysqli_error($conexion));
+            throw new Exception("Error al listar miembros del grupo: " . mysqli_error($conexion));
         }
 
-        $con->cerrarConexion();
         return $resultado;
     }
 
@@ -28,13 +26,11 @@ class Clase_Miembros_Grupos
         mysqli_stmt_bind_param($stmt, "i", $id_miembro);
         mysqli_stmt_execute($stmt);
         $resultado = mysqli_stmt_get_result($stmt);
-        
+
         if (!$resultado) {
-            $con->cerrarConexion();
-            throw new Exception("Error al obtener miembro: " . mysqli_error($conexion));
+            throw new Exception("Error al obtener miembro del grupo: " . mysqli_error($conexion));
         }
 
-        $con->cerrarConexion();
         return $resultado;
     }
 
@@ -42,35 +38,15 @@ class Clase_Miembros_Grupos
     {
         $con = new Clase_Conectar();
         $conexion = $con->Procedimiento_Conectar();
-        $query = "INSERT INTO miembros_grupo (id_miembro, id_grupo, id_usuario, fecha_union) VALUES (NULL, ?, ?, ?)";
+        $query = "INSERT INTO miembros_grupo (id_grupo, id_usuario, fecha_union) VALUES (?, ?, ?)";
         $stmt = mysqli_prepare($conexion, $query);
         mysqli_stmt_bind_param($stmt, "iis", $id_grupo, $id_usuario, $fecha_union);
         $resultado = mysqli_stmt_execute($stmt);
-        
+
         if (!$resultado) {
-            $con->cerrarConexion();
-            throw new Exception("Error al insertar miembro: " . mysqli_error($conexion));
+            throw new Exception("Error al insertar miembro del grupo: " . mysqli_error($conexion));
         }
 
-        $con->cerrarConexion();
-        return $resultado;
-    }
-
-    public function actualizar($id_miembro, $id_grupo, $id_usuario, $fecha_union)
-    {
-        $con = new Clase_Conectar();
-        $conexion = $con->Procedimiento_Conectar();
-        $query = "UPDATE miembros_grupo SET id_grupo = ?, id_usuario = ?, fecha_union = ? WHERE id_miembro = ?";
-        $stmt = mysqli_prepare($conexion, $query);
-        mysqli_stmt_bind_param($stmt, "iisi", $id_grupo, $id_usuario, $fecha_union, $id_miembro);
-        $resultado = mysqli_stmt_execute($stmt);
-        
-        if (!$resultado) {
-            $con->cerrarConexion();
-            throw new Exception("Error al actualizar miembro: " . mysqli_error($conexion));
-        }
-
-        $con->cerrarConexion();
         return $resultado;
     }
 
@@ -82,13 +58,11 @@ class Clase_Miembros_Grupos
         $stmt = mysqli_prepare($conexion, $query);
         mysqli_stmt_bind_param($stmt, "i", $id_miembro);
         $resultado = mysqli_stmt_execute($stmt);
-        
+
         if (!$resultado) {
-            $con->cerrarConexion();
-            throw new Exception("Error al eliminar miembro: " . mysqli_error($conexion));
+            throw new Exception("Error al eliminar miembro del grupo: " . mysqli_error($conexion));
         }
 
-        $con->cerrarConexion();
         return $resultado;
     }
 }
