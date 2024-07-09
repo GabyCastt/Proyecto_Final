@@ -6,50 +6,73 @@
     <title>Registro de Usuario</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Montserrat', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f0f0f0;
+            background-color: black;
         }
+
         .container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 350px;
         }
-        .form-group {
-            margin-bottom: 15px;
+
+        h2 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
         }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input[type="text"], input[type="email"], input[type="password"] {
+
+        input[type="text"], input[type="password"], input[type="email"] {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
+            margin: 10px 0;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 18px;
+            font-family: 'Montserrat', sans-serif;
         }
+
         input[type="submit"], input[type="reset"] {
-            padding: 10px 15px;
+            background-color: #9B73D8; /* Purple button */
+            color: white;
+            padding: 12px 20px;
             border: none;
-            border-radius: 4px;
+            border-radius: 5px;
             cursor: pointer;
-        }
-        input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-        }
-        input[type="reset"] {
-            background-color: #f44336;
-            color: white;
-        }
-        .error {
-            color: red;
+            font-size: 18px;
+            font-weight: bold;
             margin-top: 10px;
+        }
+
+        input[type="submit"]:hover, input[type="reset"]:hover {
+            background-color: #7e5daa; /* Darker purple on hover */
+        }
+
+        a {
+            color: #9B73D8; /* Purple link */
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .success-message {
+            margin-top: 20px;
+            color: #4CAF50;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -81,10 +104,19 @@
                 <input type="submit" value="Registrar">
                 <input type="reset" value="Cancelar">
             </div>
+            <div class="success-message" id="success-message" style="display:none;">Usuario registrado exitosamente.</div>
             <div class="error" id="error-message"></div>
         </form>
     </div>
 
     <script src="Registro.js"></script>
+    <script>
+        // Simulación de registro exitoso para propósitos de demostración
+        document.getElementById('form-registro').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evita el envío real del formulario
+            // Aquí se simula la respuesta exitosa del servidor
+            document.getElementById('success-message').style.display = 'block';
+        });
+    </script>
 </body>
 </html>

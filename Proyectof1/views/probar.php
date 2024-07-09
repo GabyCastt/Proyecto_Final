@@ -1,46 +1,5 @@
-<?php
-// index.php
-
-session_start();
-require_once('config/conexion.php');
-require_once('models/usuarios.model.php');
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $usuario = new Clase_Usuarios();
-    
-    if (isset($_POST['login'])) {
-        $correo_electronico = $_POST['correo_electronico'];
-        $contrasena = $_POST['contrasena'];
-        $resultado = $usuario->login($correo_electronico, $contrasena);
-        
-        if ($resultado) {
-            $_SESSION['usuario'] = $resultado;
-            header('Location: views/dashboard.php');
-            exit();
-        } else {
-            header('Location: index.php?error=1');
-            exit();
-        }
-    } elseif (isset($_POST['registrar'])) {
-        $nombre = $_POST['nombre'];
-        $apellido = $_POST['apellido'];
-        $correo_electronico = $_POST['correo_electronico'];
-        $contrasena = $_POST['contrasena'];
-        $resultado = $usuario->registrar($nombre, $apellido, $correo_electronico, $contrasena);
-        
-        if ($resultado) {
-            header('Location: index.php?registro=1');
-            exit();
-        } else {
-            header('Location: index.php?error=2');
-            exit();
-        }
-    }
-}
-?>
-
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
