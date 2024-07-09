@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 --
 -- Estructura de tabla para la tabla `amigos`
 --
-
+CREATE DATABASE proyecto_final;
 CREATE TABLE `amigos` (
   `id_amigo` int(11) NOT NULL,
   `id_usuario1` int(11) DEFAULT NULL,
