@@ -8,13 +8,14 @@ class Clase_Conectar
     private $server = "localhost";
     private $usu = "root";
     private $clave = "";  // Sin contraseña, asegurarse de que esté exactamente así, sin espacios.
-    private $base = "quinto4";
-    private $port = 3307; // Especificar el puerto MySQL personalizado
+    private $base = "ejercicio_calvache_castillo";
+
+   // private $port = 3307; // Especificar el puerto MySQL personalizado
 
     public function Procedimiento_Conectar()
     {
         // Intentar conectar a la base de datos, especificando el puerto
-        $this->conexion = mysqli_connect($this->server, $this->usu, $this->clave, $this->base, $this->port);
+        $this->conexion = mysqli_connect($this->server, $this->usu, $this->clave, $this->base); //$this->port);
 
         // Verificar si la conexión fue exitosa
         if (!$this->conexion) {
