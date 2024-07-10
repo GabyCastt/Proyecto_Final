@@ -150,7 +150,8 @@ if (isset($_GET['id_publicacion'])) {
                                         <td><?php echo htmlspecialchars($pub['titulo']); ?></td>
                                         <td><?php echo htmlspecialchars($pub['contenido']); ?></td>
                                         <td>
-                                            <a href="?id_publicacion=<?php echo $pub['id_publicacion']; ?>" class="btn btn-sm btn-primary">Editar</a>
+                                            <a href="comentario.php?id_publicacion=<?php echo $pub['id_publicacion']; ?>" class="btn btn-sm btn-primary">Ver Comentarios</a>
+                                            <a href="?id_publicacion=<?php echo $pub['id_publicacion']; ?>" class="btn btn-sm btn-info">Editar</a>
                                             <a href="?eliminar&id_publicacion=<?php echo $pub['id_publicacion']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro de eliminar esta publicación?');">Eliminar</a>
                                         </td>
                                     </tr>
@@ -165,6 +166,5 @@ if (isset($_GET['id_publicacion'])) {
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="publicaciones.js"></script>
-
 </body>
 </html>
