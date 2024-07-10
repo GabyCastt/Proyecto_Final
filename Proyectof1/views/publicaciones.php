@@ -39,18 +39,24 @@ if (isset($_GET['id_publicacion'])) {
     <link rel="stylesheet" href="styles.css"> <!-- Archivo de estilos personalizado -->
     <style>
         body {
-            background-color: #f5f5f5;
+            background-image: linear-gradient(to bottom, #34C759, #2E865F);
+            background-size: 100% 100vh;
+            background-position: 0% 100%;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
         }
         .navbar {
-            background-color: #333;
+            background-color: #3E8E41; /* Verde oscuro */
             color: #fff;
         }
         .card {
             border: none;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #F7F7F7; /* Blanco claro */
         }
         .card-header {
-            background-color: #337ab7;
+            background-color: #3E8E41; /* Verde oscuro */
             color: #fff;
         }
         .card-body {
@@ -65,17 +71,23 @@ if (isset($_GET['id_publicacion'])) {
             text-align: left;
         }
         .btn-primary {
-            background-color: #337ab7;
-            border-color: #337ab7;
+            background-color: #34C759; /* Verde claro */
+            border-color: #34C759;
         }
         .btn-danger {
             background-color: #d9534f;
             border-color: #d9534f;
         }
+        .nav-link {
+            color: #fff;
+        }
+        .nav-link:hover {
+            color: #ccc;
+        }
     </style>
 </head>
 <body>
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -159,6 +171,16 @@ if (isset($_GET['id_publicacion'])) {
                             </tbody>
                         </table>
                     </div>
+
+                    </div>
+        </div>
+    </div>
+
+    <div class="container mt-3">
+        <a href="dashboard.php" class="btn btn-primary">Regresar al Dashboard</a>
+    </div>
+    </div>
+    </div>
                 </div>
             </div>
         </div>

@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class='navbar-nav w-100'>
-            <a href='../Dashboard/' class='nav-item nav-link'><i class='fa fa-tachometer-alt me-2'></i>MENÚ</a>
+        <a href="<?php __DIR__ . '/../dashboard.php'; ?>" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>MENÚ</a>
             <a href='./amigos.php' class='nav-item nav-link'><i class='fa fa-th me-2'></i>Amigos</a>
             <a href="./grupos.php" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Grupos</a>
             <a href='./publicaciones.php' class='nav-item nav-link'><i class='fa fa-th me-2'></i>Publicación</a>

@@ -1,54 +1,40 @@
 <?php
-require_once '../models/comentario.model.php';
+require_once('../models/comentario.model.php');
 
-class ComentariosController
-{
-    private $comentarioModel;
+class ComentarioController {
+    private $model;
 
-    public function __construct()
-    {
-        $this->comentarioModel = new ComentarioModel();
+    public function __construct() {
+        $this->model = new ComentarioModel();
     }
 
-    public function crearComentario($id_publicacion, $id_usuario, $contenido)
-    {
-        $resultado = $this->comentarioModel->crearComentario($id_publicacion, $id_usuario, $contenido);
+    public function agregarComentario($id_publicacion, $id_usuario, $nombre_usuario, $contenido) {
+        $resultado = $this->model->agregarComentario($id_publicacion, $id_usuario, $contenido);
         if ($resultado) {
             return [
-                'success' => true,
-                'message' => 'Comentario creado correctamente.',
-                'comentario' => $resultado
+                'status' => 'success',
+                'nombre_usuario' => $nombre_usuario,
+                'contenido' => $contenido,
+                'fecha_comentario' => date('Y-m-d H:i:s')
             ];
         } else {
-            return [
-                'success' => false,
-                'message' => 'Error al crear el comentario.'
-            ];
+            return ['status' => 'error'];
         }
     }
 
-    public function obtenerComentariosPorPublicacion($id_publicacion)
-    {
-        return $this->comentarioModel->obtenerComentariosPorPublicacion($id_publicacion);
+    public function obtenerComentariosPorPublicacion($id_publicacion) {
+        return $this->model->obtenerComentariosPorPublicacion($id_publicacion);
     }
 }
 
-// Procesar la solicitud AJAX
+// Manejo de solicitudes POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $controller = new ComentariosController();
-
-    $id_publicacion = filter_input(INPUT_POST, 'id_publicacion', FILTER_SANITIZE_NUMBER_INT);
-    $id_usuario = 1; // Asumiendo que tienes una forma de obtener el ID del usuario
-    $contenido = filter_input(INPUT_POST, 'contenido', FILTER_SANITIZE_SPECIAL_CHARS);
-
-    if ($id_publicacion && $contenido) {
-        $response = $controller->crearComentario($id_publicacion, $id_usuario, $contenido);
-    } else {
-        $response = ['success' => false, 'message' => 'Datos de entrada inválidos.'];
-    }
-
-    header('Content-Type: application/json');
-    echo json_encode($response);
-    exit;
+    $controller = new ComentarioController();
+    $resultado = $controller->agregarComentario(
+        $_POST['id_publicacion'],
+        $_POST['id_usuario'],
+        $_POST['nombre_usuario'],
+        $_POST['contenido']
+    );
+    echo json_encode($resultado);
 }
-?>
