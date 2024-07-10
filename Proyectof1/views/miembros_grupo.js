@@ -45,28 +45,37 @@ function listarMiembros() {
 
 function cargarGrupos() {
   fetch("../controllers/miembros_grupos.controller.php", {
-    method: "POST",
-    body: new URLSearchParams({
-      action: "obtenerGrupos",
-    }),
+      method: "POST",
+      body: new URLSearchParams({
+          action: "obtenerGrupos",
+      }),
   })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.status === "success") {
-        const grupoSelect = document.getElementById("id_grupo");
-        grupoSelect.innerHTML = "";
-        data.data.forEach((grupo) => {
-          const option = document.createElement("option");
-          option.value = grupo.id_grupo;
-          option.textContent = grupo.nombre_grupo;
-          grupoSelect.appendChild(option);
-        });
-      } else {
-        Swal.fire("Error", data.message, "error");
+  .then((response) => {
+      if (!response.ok) {
+          throw new Error(`Error en la solicitud: ${response.status} ${response.statusText}`);
       }
-    });
+      return response.json();
+  })
+  .then((data) => {
+      if (data.status === "success") {
+          const grupoSelect = document.getElementById("id_grupo");
+          grupoSelect.innerHTML = "";
+          data.data.forEach((grupo) => {
+              const option = document.createElement("option");
+              option.value = grupo.id_grupo;
+              option.textContent = grupo.nombre_grupo;
+              grupoSelect.appendChild(option);
+          });
+      } else {
+          console.error("Error al cargar grupos:", data.message);
+          Swal.fire("Error", data.message, "error");
+      }
+  })
+  .catch((error) => {
+      console.error("Error en la solicitud:", error);
+      Swal.fire("Error", "Error al cargar grupos", "error");
+  });
 }
-
 function cargarUsuarios() {
   fetch("../controllers/miembros_grupos.controller.php", {
     method: "POST",

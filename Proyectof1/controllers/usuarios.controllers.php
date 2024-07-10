@@ -4,7 +4,17 @@ require_once('../models/usuario.model.php');
 
 $usuario = new Clase_Usuarios();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    // Manejar solicitud para obtener usuarios
+    $usuariosDisponibles = $usuario->obtenerUsuarios();
+
+    $response = [
+        'status' => 'success',
+        'data' => $usuariosDisponibles
+    ];
+
+    echo json_encode($response);
+} elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['login'])) {
         $correo_electronico = $_POST['correo_electronico'];
         $contrasena = $_POST['contrasena'];

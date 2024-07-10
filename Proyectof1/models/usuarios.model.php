@@ -28,5 +28,21 @@ class Clase_Usuarios {
         $con->close();
         return $resultado;
     }
+    public function obtenerUsuarios() {
+        $con = new Clase_Conectar();
+        $con = $con->Procedimiento_Conectar();
+
+        $query = "SELECT id_usuario, nombre FROM Usuarios";
+        $resultado = mysqli_query($con, $query);
+
+        $usuarios = [];
+        while ($row = mysqli_fetch_assoc($resultado)) {
+            $usuarios[] = $row;
+        }
+
+        $con->close();
+        return $usuarios;
+    }
+
 }
 ?>

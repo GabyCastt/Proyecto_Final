@@ -101,5 +101,19 @@ class Clase_Grupos
 
         return $resultado;
     }
+
+    public function obtenerNombresGrupos()
+    {
+        $con = new Clase_Conectar();
+        $conexion = $con->Procedimiento_Conectar();
+        $query = "SELECT id_grupo, nombre_grupo FROM grupos";
+        $resultado = mysqli_query($conexion, $query);
+
+        if (!$resultado) {
+            throw new Exception("Error al obtener nombres de grupos: " . mysqli_error($conexion));
+        }
+
+        return $resultado;
+    }
 }
 ?>

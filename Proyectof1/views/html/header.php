@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+<nav class="navbar navbar-expand bg-dark navbar-light sticky-top px-4 py-0">
     <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
         <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
     </a>
@@ -19,7 +19,7 @@
                     <div class="d-flex align-items-center">
                         <img class="rounded-circle" src="../../public/img/user.jpg" alt="" style="width: 40px; height: 40px;">
                         <div class="ms-2">
-                            <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                            <h6 class="fw-normal mb-0">MENSAJE EJEMPLO</h6>
                             <small>15 minutes ago</small>
                         </div>
                     </div>
