@@ -47,6 +47,8 @@ class GruposController
 
             if ($resultado) {
                 echo json_encode(['status' => 'success', 'message' => 'Grupo creado correctamente']);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'No se pudo crear el grupo']);
             }
         } catch (Exception $e) {
             echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
@@ -61,6 +63,8 @@ class GruposController
 
             if ($resultado) {
                 echo json_encode(['status' => 'success', 'message' => 'Grupo actualizado correctamente']);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'No se pudo actualizar el grupo']);
             }
         } catch (Exception $e) {
             echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
@@ -75,6 +79,8 @@ class GruposController
 
             if ($resultado) {
                 echo json_encode(['status' => 'success', 'message' => 'Grupo eliminado correctamente']);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'No se pudo eliminar el grupo']);
             }
         } catch (Exception $e) {
             echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
