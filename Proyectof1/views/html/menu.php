@@ -1,5 +1,5 @@
 <div class='sidebar pe-4 pb-3'>
-    <nav class='navbar bg-light navbar-light'>
+    <nav class='navbar bg-dark navbar-light'>
         <a href='../Dashboard/' class='navbar-brand mx-4 mb-3'>
             <h3 class='text-primary'><i class='fa fa-hashtag me-2'></i>PROYECTO</h3>
         </a>
@@ -18,7 +18,13 @@
             <a href='./amigos.php' class='nav-item nav-link'><i class='fa fa-th me-2'></i>Amigos</a>
             <a href="./grupos.php" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Grupos</a>
             <a href='./publicaciones.php' class='nav-item nav-link'><i class='fa fa-th me-2'></i>Publicación</a>
-        
+          
+            <a href="./dashboard.php" class='nav-item nav-link'><i class='fa fa-th me-2'></i>Ejemplo</a>
+            <a href="./dashboard.php" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Ejemplo</a>
+            <a href="./dashboard.php" class='nav-item nav-link'><i class='fa fa-th me-2'></i>Ejemplo</a>
+            <a href="./dashboard.php" class='nav-item nav-link'><i class='fa fa-th me-2'></i>Ejemplo</a>
+            <a href="./dashboard.php" class='nav-item nav-link'><i class='fa fa-th me-2'></i>Ejemplo</a>
+           
         </div>
     </nav>
 </div>
