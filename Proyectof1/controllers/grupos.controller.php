@@ -1,156 +1,77 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// Iniciamos la sesión solo si no hay una activa
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
-header('Content-Type: application/json');
-$response = ['status' => 'error', 'message' => 'Something went wrong'];
 require_once('../models/grupos.model.php');
 
-class GruposController
-{
-    public function listarGrupos()
-    {
-        try {
-            $gruposModel = new Clase_Grupos();
-            $grupos = $gruposModel->todos();
-            $data = [];
+class Grupos_Controller {
+    private $modelo;
 
-            while ($grupo = mysqli_fetch_assoc($grupos)) {
-                $data[] = $grupo;
-            }
-
-            echo json_encode(['status' => 'success', 'data' => $data]);
-        } catch (Exception $e) {
-            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
-        }
+    public function __construct() {
+        $this->modelo = new Grupos_Model();
     }
 
-    public function obtenerGrupo($id_grupo)
-    {
-        try {
-            $gruposModel = new Clase_Grupos();
-            $grupo = $gruposModel->uno($id_grupo);
-            $data = mysqli_fetch_assoc($grupo);
-
-            echo json_encode(['status' => 'success', 'data' => $data]);
-        } catch (Exception $e) {
-            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
-        }
+    public function listarGrupos() {
+        return $this->modelo->Listar_Grupos();
     }
 
-    public function crearGrupo($nombre_grupo, $descripcion)
-    {
-        try {
-            $gruposModel = new Clase_Grupos();
-            $resultado = $gruposModel->insertar($nombre_grupo, $descripcion);
-
-            if ($resultado) {
-                echo json_encode(['status' => 'success', 'message' => 'Grupo creado correctamente']);
-            } else {
-                echo json_encode(['status' => 'error', 'message' => 'No se pudo crear el grupo']);
-            }
-        } catch (Exception $e) {
-            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
-        }
+    public function insertarGrupo($nombre_grupo, $descripcion) {
+        return $this->modelo->Insertar_Grupo($nombre_grupo, $descripcion);
     }
 
-    public function actualizarGrupo($id_grupo, $nombre_grupo, $descripcion)
-    {
-        try {
-            $gruposModel = new Clase_Grupos();
-            $resultado = $gruposModel->actualizar($id_grupo, $nombre_grupo, $descripcion);
-
-            if ($resultado) {
-                echo json_encode(['status' => 'success', 'message' => 'Grupo actualizado correctamente']);
-            } else {
-                echo json_encode(['status' => 'error', 'message' => 'No se pudo actualizar el grupo']);
-            }
-        } catch (Exception $e) {
-            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
-        }
+    public function editarGrupo($id_grupo, $nombre_grupo, $descripcion) {
+        return $this->modelo->Editar_Grupo($id_grupo, $nombre_grupo, $descripcion);
     }
 
-    public function eliminarGrupo($id_grupo)
-    {
-        try {
-            $gruposModel = new Clase_Grupos();
-            $resultado = $gruposModel->eliminar($id_grupo);
-
-            if ($resultado) {
-                echo json_encode(['status' => 'success', 'message' => 'Grupo eliminado correctamente']);
-            } else {
-                echo json_encode(['status' => 'error', 'message' => 'No se pudo eliminar el grupo']);
-            }
-        } catch (Exception $e) {
-            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
-        }
-    }
-
-    public function listarMiembros($id_grupo)
-    {
-        try {
-            $gruposModel = new Clase_Grupos();
-            $miembros = $gruposModel->miembros($id_grupo);
-            $data = [];
-
-            while ($miembro = mysqli_fetch_assoc($miembros)) {
-                $data[] = $miembro;
-            }
-
-            echo json_encode(['status' => 'success', 'data' => $data]);
-        } catch (Exception $e) {
-            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
-        }
-    }
-
-    public function obtenerNombresGrupos()
-    {
-        try {
-            $gruposModel = new Clase_Grupos();
-            $grupos = $gruposModel->obtenerNombresGrupos();
-            $data = [];
-
-            while ($grupo = mysqli_fetch_assoc($grupos)) {
-                $data[] = $grupo;
-            }
-
-            echo json_encode(['status' => 'success', 'data' => $data]);
-        } catch (Exception $e) {
-            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
-        }
+    public function eliminarGrupo($id_grupo) {
+        return $this->modelo->Eliminar_Grupo($id_grupo);
     }
 }
 
-// Manejo de las solicitudes HTTP
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $controller = new GruposController();
+// Manejo de solicitudes AJAX
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $controller = new Grupos_Controller();
+    
+    if (!isset($_SESSION['usuario']) || !isset($_SESSION['usuario']['id_usuario'])) {
+        echo json_encode(['error' => 'Usuario no autenticado']);
+        exit;
+    }
+    
+    $id_usuario = $_SESSION['usuario']['id_usuario'];
 
-    switch ($_POST['action']) {
-        case 'listarGrupos':
-            $controller->listarGrupos();
+    switch ($_POST['accion']) {
+        case 'listar':
+            $grupos = $controller->listarGrupos();
+            echo json_encode($grupos);
             break;
-        case 'obtenerGrupo':
-            $controller->obtenerGrupo($_POST['id_grupo']);
+
+        case 'insertar':
+            $nombre_grupo = $_POST['nombre_grupo'];
+            $descripcion = $_POST['descripcion'];
+            $resultado = $controller->insertarGrupo($nombre_grupo, $descripcion);
+            echo $resultado ? 'success' : 'error';
             break;
-        case 'crearGrupo':
-            $controller->crearGrupo($_POST['nombre_grupo'], $_POST['descripcion']);
+
+        case 'editar':
+            $id_grupo = $_POST['id_grupo'];
+            $nombre_grupo = $_POST['nombre_grupo'];
+            $descripcion = $_POST['descripcion'];
+            $resultado = $controller->editarGrupo($id_grupo, $nombre_grupo, $descripcion);
+            echo $resultado ? 'success' : 'error';
             break;
-        case 'actualizarGrupo':
-            $controller->actualizarGrupo($_POST['id_grupo'], $_POST['nombre_grupo'], $_POST['descripcion']);
+
+        case 'eliminar':
+            $id_grupo = $_POST['id_grupo'];
+            $resultado = $controller->eliminarGrupo($id_grupo);
+            echo $resultado ? 'success' : 'error';
             break;
-        case 'eliminarGrupo':
-            $controller->eliminarGrupo($_POST['id_grupo']);
-            break;
-        case 'listarMiembros':
-            $controller->listarMiembros($_POST['id_grupo']);
-            break;
-        case 'obtenerNombresGrupos':  // Nueva acción
-            $controller->obtenerNombresGrupos();
-            break;
+
         default:
-            echo json_encode(['status' => 'error', 'message' => 'Acción no válida']);
+            echo json_encode(['error' => 'Acción no reconocida']);
             break;
     }
+    exit;
 }
 ?>
