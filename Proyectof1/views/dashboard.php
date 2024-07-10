@@ -1,4 +1,11 @@
-<!-- dashboard.php -->
+<?php
+session_start();
+if (!isset($_SESSION['usuario'])) {
+    header('Location: ../index.php');
+    exit();
+}
+$usuario_nombre = $_SESSION['usuario']['nombre'];
+?>
 
 <!DOCTYPE html>
 <html lang='es'>
@@ -17,6 +24,28 @@
         .custom-flatpickr input {
             margin-right: 5px;
             flex: 1;
+        }
+
+        .welcome-hero {
+            background-image: linear-gradient(to bottom, #34C759, #2E865F);
+            background-size: 100% 300px;
+            background-position: 0% 100%;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        .welcome-hero h1 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .welcome-hero p {
+            font-size: 18px;
+            margin-bottom: 20px;
         }
     </style>
 
@@ -45,11 +74,19 @@
             <?php require_once('./html/header.php') ?>
             <!-- Navbar End -->
 
+            <div class='container-fluid pt-4 px-4'>
+                <div class='welcome-hero'>
+                    <h1 class='display-3 fw-bold'>BIENVENIDO, <?php echo htmlspecialchars($usuario_nombre);?>!</h1>
+                    <p class='lead'>MÁS CONECTADOS, MÁS INFORMADOS</p>
+                </div>
 
-           
+                <div class='d-flex align-items-center justify-content-between mb-4'>
+                    <!-- Your content here -->
+                </div>
+            </div>
 
-
-          
+            <!-- Footer Start -->
+            <?php require_once('./html/footer.php') ?>
             <!-- Footer End -->
         </div>
         <!-- Content End -->
@@ -57,73 +94,6 @@
 
         <!-- Back to Top -->
         <a href='#' class='btn btn-lg btn-primary btn-lg-square back-to-top'><i class='bi bi-arrow-up'></i></a>
-    </div>
-
-
-    <!-- Modales -->
-    <div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Nuevo Usuario</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form id="frm_usuarios">
-                    <div class="modal-body">
-                        <input type="hidden" name="UsuarioId" id="UsuarioId">
-                        <div class="form-group">
-                            <label for="Nombre">Nombre</label>
-                            <input type="text" name="Nombre" id="Nombre" placeholder="Ingrese su nombre" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="correo">Correo</label>
-                            <input type="email" name="correo" id="correo" placeholder="Ingrese su correo" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Contraseña</label>
-                            <input type="password" name="password" id="password" placeholder="Ingrese su contraseña" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="estado">Estado</label>
-                            <input type="checkbox" name="estado" id="estado">
-                        </div>
-                        <div class="form-group">
-                            <label for="RolesId">Rol</label>
-                            <select name="RolesId" id="RolesId" class="form-control" required>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Guardar</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="modalRol" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Nuevo Rol</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form id="frm_roles">
-                    <div class="modal-body">
-                        <input type="hidden" name="RolId" id="RolId">
-                        <div class="form-group">
-                            <label for="NombreRol">Nombre</label>
-                            <input type="text" name="NombreRol" id="NombreRol" placeholder="Ingrese el nombre del rol" class="form-control" required>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Guardar</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
     </div>
 
     <!-- JavaScript Libraries -->
