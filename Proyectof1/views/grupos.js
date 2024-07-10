@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Función para abrir el modal y preparar para insertar un nuevo grupo
     function abrirModal(tipo) {
-        $('#ModalAgregarGrupo').modal('show'); // Modificado el ID del modal
+        $('#ModalAgregarGrupo').modal('show');
         limpiarFormulario();
         $('#exampleModalLabel').text(tipo === 'insertar' ? 'Nuevo Grupo' : 'Editar Grupo');
     }
@@ -48,9 +48,9 @@ document.addEventListener('DOMContentLoaded', function () {
             dataType: 'json',
             success: function (response) {
                 if (response.status === 'success') {
-                    $('#ModalAgregarGrupo').modal('hide'); // Modificado el ID del modal
-                    listarGrupos(); // Llama a tu función para listar grupos actualizada
-                    listarNombresGrupos(); // Actualiza también la lista de nombres de grupos
+                    $('#ModalAgregarGrupo').modal('hide');
+                    listarGrupos();
+                    listarNombresGrupos();
                     Swal.fire('Éxito', response.message, 'success');
                 } else {
                     Swal.fire('Error', response.message, 'error');
@@ -95,34 +95,33 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Función para editar un grupo
-    window.editarGrupo = function editarGrupo(id_grupo) {
-        fetch('../controllers/grupos.controller.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: new URLSearchParams({
+    // Función para cargar los datos de un grupo en el modal de edición
+    function editarGrupo(id_grupo) {
+        $.ajax({
+            url: '../controllers/grupos.controller.php',
+            type: 'GET',
+            dataType: 'json',
+            data: {
                 action: 'obtenerGrupo',
                 id_grupo: id_grupo
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                $('#id_grupo').val(data.data.id_grupo);
-                $('#nombre_grupo').val(data.data.nombre_grupo);
-                $('#descripcion').val(data.data.descripcion);
-                abrirModal('editar'); // Abre el modal después de cargar los datos
-            } else {
-                Swal.fire('Error', data.message, 'error');
+            },
+            success: function (response) {
+                if (response.status === 'success') {
+                    var grupo = response.data;
+                    $('#id_grupo').val(grupo.id_grupo);
+                    $('#nombre_grupo').val(grupo.nombre_grupo);
+                    $('#descripcion').val(grupo.descripcion);
+                    abrirModal('editar');
+                } else {
+                    Swal.fire('Error', response.message, 'error');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error en la solicitud AJAX:', status, '-', error);
+                Swal.fire('Error', 'Hubo un problema al obtener los datos del grupo.', 'error');
             }
-        })
-        .catch(error => {
-            console.error('Error al obtener datos del grupo:', error);
-            Swal.fire('Error', 'Hubo un problema al intentar obtener los datos del grupo.', 'error');
         });
-    };
+    }
 
     // Función para eliminar un grupo
     window.eliminarGrupo = function eliminarGrupo(id_grupo) {
@@ -147,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(data => {
                     if (data.status === 'success') {
                         listarGrupos();
-                        listarNombresGrupos(); // Actualiza también la lista de nombres de grupos
+                        listarNombresGrupos();
                         Swal.fire('Eliminado', data.message, 'success');
                     } else {
                         Swal.fire('Error', data.message, 'error');
