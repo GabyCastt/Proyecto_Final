@@ -66,6 +66,29 @@ class MiembrosGrupoController
             echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
         }
     }
+    public function obtenerGrupos()
+    {
+        try {
+            $miembrosModel = new Clase_Miembros_Grupo();
+            $grupos = $miembrosModel->obtenerGrupos();
+
+            echo json_encode(['status' => 'success', 'data' => $grupos]);
+        } catch (Exception $e) {
+            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+        }
+    }
+
+    public function obtenerUsuarios()
+    {
+        try {
+            $miembrosModel = new Clase_Miembros_Grupo();
+            $usuarios = $miembrosModel->obtenerUsuarios();
+
+            echo json_encode(['status' => 'success', 'data' => $usuarios]);
+        } catch (Exception $e) {
+            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+        }
+    }
 }
 
 // Manejo de las solicitudes HTTP
@@ -85,9 +108,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         case 'eliminarMiembro':
             $controller->eliminarMiembro($_POST['id_miembro']);
             break;
+        case 'obtenerGrupos':
+            $controller->obtenerGrupos();
+            break;
+        case 'obtenerUsuarios':
+            $controller->obtenerUsuarios();
+            break;
         default:
             echo json_encode(['status' => 'error', 'message' => 'Acción no válida']);
             break;
     }
 }
-?>
