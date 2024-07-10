@@ -1,77 +1,50 @@
 <?php
-// amigos.model.php
+require_once('../config/conexion.php');
 
-require_once('Clase_Conectar.php');
+class Amigos_Model {
+    private $conn;
 
-class AmigosModel {
-    private $conexion;
-    private $db; // Agregar propiedad para la conexión mysqli
-    
-    public function __construct($conexion) {
-        $this->conexion = $conexion;
-        $this->db = $conexion; // Asignar la conexión a la propiedad $db
+    public function __construct() {
+        $conectar = new Clase_Conectar();
+        $this->conn = $conectar->Procedimiento_Conectar();
     }
-    
-    public function listarAmigos() {
-        $query = "SELECT a.id_amigo, u1.nombre AS nombre_usuario1, u2.nombre AS nombre_usuario2, a.fecha_amistad 
-                  FROM amigos a
-                  INNER JOIN usuarios u1 ON a.id_usuario1 = u1.id_usuario
-                  INNER JOIN usuarios u2 ON a.id_usuario2 = u2.id_usuario";
-        $stmt = $this->db->prepare($query);
+
+    public function listarAmigos($id_usuario) {
+        $sql = "SELECT u.id_usuario, u.nombre, u.apellido 
+                FROM Amigos a
+                JOIN Usuarios u ON (a.id_usuario1 = u.id_usuario OR a.id_usuario2 = u.id_usuario)
+                WHERE (a.id_usuario1 = ? OR a.id_usuario2 = ?) AND u.id_usuario != ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("iii", $id_usuario, $id_usuario, $id_usuario);
         $stmt->execute();
         $result = $stmt->get_result();
-        $amigos = $result->fetch_all(MYSQLI_ASSOC);
-        return $amigos;
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function obtenerAmigoPorId($id_amigo) {
-        $query = "SELECT a.id_amigo, a.id_usuario1, u1.nombre AS nombre_usuario1, a.id_usuario2, u2.nombre AS nombre_usuario2, a.fecha_amistad 
-                  FROM amigos a
-                  INNER JOIN usuarios u1 ON a.id_usuario1 = u1.id_usuario
-                  INNER JOIN usuarios u2 ON a.id_usuario2 = u2.id_usuario
-                  WHERE a.id_amigo = ?";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param("i", $id_amigo);
+    public function buscarUsuarios($busqueda, $id_usuario) {
+        $busqueda = "%$busqueda%";
+        $sql = "SELECT id_usuario, nombre, apellido 
+                FROM Usuarios 
+                WHERE (nombre LIKE ? OR apellido LIKE ?) AND id_usuario != ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ssi", $busqueda, $busqueda, $id_usuario);
         $stmt->execute();
         $result = $stmt->get_result();
-        $amigo = $result->fetch_assoc();
-        return $amigo;
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function insertarAmigo($id_usuario1, $id_usuario2, $fecha_amistad) {
-        $query = "INSERT INTO amigos (id_usuario1, id_usuario2, fecha_amistad) VALUES (?, ?, ?)";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param("iis", $id_usuario1, $id_usuario2, $fecha_amistad);
-
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
-        }
+    public function agregarAmigo($id_usuario1, $id_usuario2) {
+        $sql = "INSERT INTO Amigos (id_usuario1, id_usuario2, fecha_amistad) VALUES (?, ?, NOW())";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ii", $id_usuario1, $id_usuario2);
+        return $stmt->execute();
     }
 
-    public function actualizarAmigo($id_amigo, $id_usuario1, $id_usuario2, $fecha_amistad) {
-        $query = "UPDATE amigos SET id_usuario1 = ?, id_usuario2 = ?, fecha_amistad = ? WHERE id_amigo = ?";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param("iisi", $id_usuario1, $id_usuario2, $fecha_amistad, $id_amigo);
-
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function eliminarAmigo($id_amigo) {
-        $query = "DELETE FROM amigos WHERE id_amigo = ?";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param("i", $id_amigo);
-
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
-        }
+    public function eliminarAmigo($id_usuario1, $id_usuario2) {
+        $sql = "DELETE FROM Amigos WHERE (id_usuario1 = ? AND id_usuario2 = ?) OR (id_usuario1 = ? AND id_usuario2 = ?)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("iiii", $id_usuario1, $id_usuario2, $id_usuario2, $id_usuario1);
+        return $stmt->execute();
     }
 }
 ?>
