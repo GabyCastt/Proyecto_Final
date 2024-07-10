@@ -92,11 +92,7 @@ $amigos = $controller->listarAmigos($id_usuario);
         <a href="dashboard.php" class="btn btn-primary">Regresar al Dashboard</a>
     </div>
 
-<<<<<<< HEAD
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="amigos.js"></script>
 </body>
 </html>
-=======
-</html>
->>>>>>> 664187bf97d30703b75fab594a26ade245ea9466
