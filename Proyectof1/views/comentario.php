@@ -79,6 +79,7 @@ $comentarios = $comentarioModel->obtenerComentariosPorPublicacion($id_publicacio
                 <textarea class="form-control" id="contenido" name="contenido" rows="3" required></textarea>
             </div>
             <button type="submit" class="btn btn-primary">Enviar Comentario</button>
+            <a href="publicaciones.php" class="btn btn-primary">Regresar </a>
         </form>
     </div>
 
