@@ -21,29 +21,50 @@ $amigos = $controller->listarAmigos($id_usuario);
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            background-image: linear-gradient(to bottom, #455A64, #607D8B);
-            background-repeat: no-repeat;
+            background-image: linear-gradient(to bottom, #34C759, #2E865F);
+            background-size: 100% 100vh;
+            background-position: 0% 100%;
             height: 100vh;
+            margin: 0;
+            padding: 0;
         }
-        .container {
-            max-width: 800px;
+        .navbar {
+            background-color: #3E8E41; /* Verde oscuro */
+            color: #fff;
         }
         .card {
             border: none;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #F7F7F7; /* Blanco claro */
+        }
+        .card-header {
+            background-color: #3E8E41; /* Verde oscuro */
+            color: #fff;
         }
         .card-body {
-            padding: 2rem;
+            padding: 20px;
         }
-        .display-4 {
-            font-weight: bold; /* Letra con negrilla */
-            color: #fff; /* Texto blanco */
-            background-color: #455A64; /* Fondo azul-gris */
+        .table {
+            border-collapse: collapse;
+        }
+        .table th, .table td {
+            border: 1px solid #ddd;
             padding: 10px;
-            border-radius: 10px;
+            text-align: left;
         }
-        .lead {
-            color: #fff; /* Texto blanco */
+        .btn-primary {
+            background-color: #34C759; /* Verde claro */
+            border-color: #34C759;
+        }
+        .btn-danger {
+            background-color: #d9534f;
+            border-color: #d9534f;
+        }
+        .nav-link {
+            color: #fff;
+        }
+        .nav-link:hover {
+            color: #ccc;
         }
     </style>
 </head>
@@ -89,7 +110,7 @@ $amigos = $controller->listarAmigos($id_usuario);
     </div>
 
     <div class="container mt-3">
-        <a href="dashboard.php" class="btn btn-primary">Regresar al Dashboard</a>
+        <a href="dashboard.php" class="btn btn-primary">Regresar al Menú</a>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
