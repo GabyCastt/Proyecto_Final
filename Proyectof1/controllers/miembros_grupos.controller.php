@@ -72,12 +72,11 @@ class MiembrosGrupoController
             $miembrosModel = new Clase_Miembros_Grupo();
             $grupos = $miembrosModel->obtenerGrupos();
 
-            echo json_encode(['status' => 'success', 'data' => $grupos]);
+            return ['status' => 'success', 'data' => $grupos];
         } catch (Exception $e) {
-            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+            return ['status' => 'error', 'message' => $e->getMessage()];
         }
     }
-
     public function obtenerUsuarios()
     {
         try {

@@ -103,6 +103,23 @@ class GruposController
             echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
         }
     }
+
+    public function obtenerNombresGrupos()
+    {
+        try {
+            $gruposModel = new Clase_Grupos();
+            $grupos = $gruposModel->obtenerNombresGrupos();
+            $data = [];
+
+            while ($grupo = mysqli_fetch_assoc($grupos)) {
+                $data[] = $grupo;
+            }
+
+            echo json_encode(['status' => 'success', 'data' => $data]);
+        } catch (Exception $e) {
+            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+        }
+    }
 }
 
 // Manejo de las solicitudes HTTP
@@ -127,6 +144,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             break;
         case 'listarMiembros':
             $controller->listarMiembros($_POST['id_grupo']);
+            break;
+        case 'obtenerNombresGrupos':  // Nueva acción
+            $controller->obtenerNombresGrupos();
             break;
         default:
             echo json_encode(['status' => 'error', 'message' => 'Acción no válida']);

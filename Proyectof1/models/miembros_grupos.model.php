@@ -1,6 +1,6 @@
 <?php
 require_once('../config/conexion.php');
-
+require_once('../config/cors.php');
 class Clase_Miembros_Grupo
 {
     private $conexion;
@@ -71,13 +71,13 @@ class Clase_Miembros_Grupo
 
     public function obtenerGrupos()
     {
-        $query = "SELECT id_grupo, CONCAT(nombre_grupo, descripcion) AS grupo FROM grupos";
+        $query = "SELECT id_grupo, nombre_grupo FROM grupos";
         $result = mysqli_query($this->conexion, $query);
-
+    
         if (!$result) {
             throw new Exception("Error al obtener grupos: " . mysqli_error($this->conexion));
         }
-
+    
         $grupos = mysqli_fetch_all($result, MYSQLI_ASSOC);
         mysqli_free_result($result);
         return $grupos;

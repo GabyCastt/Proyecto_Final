@@ -98,7 +98,7 @@
 
     <!-- Modales -->
     <!-- Modal para Grupos -->
-    <div class="modal fade" id="modalGrupo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="ModalAgregarGrupo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -127,45 +127,141 @@
     </div>
 
     <!-- Modal para Miembros de Grupo -->
-    <div class="modal fade" id="modalMiembro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form id="frm_miembros">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Nuevo Miembro</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+<div class="modal fade" id="modalMiembro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="frm_miembros">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Nuevo Miembro de Grupo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="id_miembro" name="id_miembro">
+                    <div class="form-group">
+                        <label for="id_grupo">Grupo</label>
+                        <select class="form-control" id="id_grupo" name="id_grupo" required>
+                            <!-- Options will be dynamically filled by JavaScript -->
+                        </select>
                     </div>
-                    <div class="modal-body">
-                        <input type="hidden" id="id_miembro" name="id_miembro">
-                        <div class="form-group">
-                            <label for="id_grupo">Grupo</label>
-                            <select class="form-control" id="id_grupo" name="id_grupo" required></select>
-                        </div>
-                        <div class="form-group">
-                            <label for="id_usuario">Usuario</label>
-                            <select class="form-control" id="id_usuario" name="id_usuario" required></select>
-                        </div>
-                        <div class="form-group">
-                            <label for="fecha_union">Fecha de Unión</label>
-                            <input type="date" class="form-control" id="fecha_union" name="fecha_union" required>
-                        </div>
+                    <div class="form-group">
+                        <label for="id_usuario">Usuario</label>
+                        <select class="form-control" id="id_usuario" name="id_usuario" required>
+                            <!-- Options will be dynamically filled by JavaScript -->
+                        </select>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    <div class="form-group">
+                        <label for="fecha_union">Fecha de Unión</label>
+                        <input type="date" class="form-control" id="fecha_union" name="fecha_union" required>
                     </div>
-                </form>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
+<!-- Modal para Editar Grupo -->
+<div class="modal fade" id="modalEditarGrupo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="frm_editar_grupo">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar Grupo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="id_grupo" name="id_grupo">
+                    <div class="form-group">
+                        <label for="nombre_grupo">Nombre del Grupo</label>
+                        <input type="text" class="form-control" id="nombre_grupo" name="nombre_grupo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="descripcion">Descripción</label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-    <!-- JavaScript Libraries -->
-    <?php require_once('./html/scripts.php') ?>
+
+   <!-- JavaScript Libraries -->
+   <?php require_once('./html/scripts.php') ?>
     <script src="./grupos.js"></script>
     <script src="./miembros_grupo.js"></script>
     <script>
+        function abrirModal(tipo) {
+        if (tipo === 'insertar') {
+            document.getElementById('frm_grupos').reset();
+            document.getElementById('id_grupo').value = '';
+            $('#ModalAgregarGrupo').modal('show'); // Cambiado a ModalAgregarGrupo
+        }
+    }
+
+    function abrirModalMiembro(tipo) {
+        if (tipo === 'insertar') {
+            document.getElementById('frm_miembros').reset();
+            document.getElementById('id_miembro').value = '';
+            cargarSelectoresMiembro();
+            $('#modalMiembro').modal('show');
+        }
+    }
+
+    function cargarSelectoresMiembro() {
+        // Supongamos que tienes funciones para obtener los grupos y los usuarios
+        obtenerGrupos(function(grupos) {
+            let selectGrupo = document.getElementById('nombre_grupo');
+            selectGrupo.innerHTML = ''; // Limpiar opciones anteriores
+            grupos.forEach(grupo => {
+                let option = document.createElement('option');
+                option.value = grupo.id_grupo;
+                option.text = grupo.nombre_grupo;
+                selectGrupo.add(option);
+            });
+        });
+
+        obtenerUsuarios(function(usuarios) {
+            let selectUsuario = document.getElementById('id_usuario');
+            selectUsuario.innerHTML = ''; // Limpiar opciones anteriores
+            usuarios.forEach(usuario => {
+                let option = document.createElement('option');
+                option.value = usuario.id_usuario;
+                option.text = usuario.nombre_usuario;
+                selectUsuario.add(option);
+            });
+        });
+    }
+
+    function obtenerGrupos(callback) {
+        $.ajax({
+            url: '../miembros_grupo.js',
+            type: 'GET',
+            success: function(response) {
+                let grupos = JSON.parse(response);
+                callback(grupos);
+            }
+        });
+    }
+
+    function obtenerUsuarios(callback) {
+        $.ajax({
+            url: '../miembros_grupos.js',
+            type: 'GET',
+            success: function(response) {
+                let usuarios = JSON.parse(response);
+                callback(usuarios);
+            }
+        });
+    }
     </script>
 </body>
 </html>
