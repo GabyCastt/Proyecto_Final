@@ -46,38 +46,10 @@
             <!-- Navbar End -->
 
 
-            <!-- Recent Sales Start -->
-            <div class='container-fluid pt-4 px-4'>
-                <button type="button" onclick="cargarUsuarios()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalUsuario">
-                    Nuevo Usuario
-                </button>
-                <button type="button" onclick="cargarRoles()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalRol">
-                    Nuevo Rol
-                </button>
-                <div class='d-flex align-items-center justify-content-between mb-4'>
-                    <h6 class='mb-0'> Lista de usuarios </h6>
-                    <table class="table table-bordered table-striped table-hover table-responsive">
-                        <thead class="table-light">
-                            <tr>
-                                <th>#</th>
-                                <th>Nombre</th>
-                                <th>Correo</th>
-                                <th>Estado</th>
-                                <th>Rol</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="cuerpousuarios">
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <!-- Recent Sales End -->
+           
 
 
-            <!-- Footer Start -->
-            <?php require_once('./html/footer.php') ?>
+          
             <!-- Footer End -->
         </div>
         <!-- Content End -->

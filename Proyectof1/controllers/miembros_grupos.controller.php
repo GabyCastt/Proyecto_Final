@@ -1,37 +1,21 @@
 <?php
-session_start();
-require_once('../models/comentario.model.php');
-require_once('../models/clase_conectar.php');
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-// Crear una instancia de la conexión
-$conexion = new Clase_Conectar();
-$dbConnection = $conexion->Procedimiento_Conectar();
+header('Content-Type: application/json');
+$response = ['status' => 'error', 'message' => 'Something went wrong'];
+require_once('../models/miembros_grupos.model.php');
 
-// Crear una instancia del modelo de comentarios
-$comentarioModel = new ComentarioModel($dbConnection);
+class MiembrosGrupoController
+{
+    public function listarMiembros()
+    {
+        try {
+            $miembrosModel = new Clase_Miembros_Grupo();
+            $miembros = $miembrosModel->todos();
+            $data = [];
 
-<<<<<<< HEAD
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['crearComentario'])) {
-        $id_publicacion = $_POST['id_publicacion'];
-        $id_usuario = $_SESSION['usuario']['id']; // Asumiendo que el id del usuario está en la sesión
-        $contenido = $_POST['contenido'];
-        $resultado = $comentarioModel->crearComentario($id_publicacion, $id_usuario, $contenido);
-        if ($resultado) {
-            header('Location: ../views/publicacion.php?id=' . $id_publicacion);
-        } else {
-            header('Location: ../views/publicacion.php?id=' . $id_publicacion . '&error=1');
-        }
-    } elseif (isset($_POST['editarComentario'])) {
-        $id_comentario = $_POST['id_comentario'];
-        $contenido = $_POST['contenido'];
-        $comentarioModel->editarComentario($id_comentario, $contenido);
-        header('Location: ../views/publicacion.php?id=' . $_POST['id_publicacion']);
-    } elseif (isset($_POST['eliminarComentario'])) {
-        $id_comentario = $_POST['id_comentario'];
-        $comentarioModel->eliminarComentario($id_comentario);
-        header('Location: ../views/publicacion.php?id=' . $_POST['id_publicacion']);
-=======
             while ($miembro = mysqli_fetch_assoc($miembros)) {
                 $data[] = $miembro;
             }
@@ -133,6 +117,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         default:
             echo json_encode(['status' => 'error', 'message' => 'Acción no válida']);
             break;
->>>>>>> d2052c9bca80827b0c018fe9645816df9788e847
     }
 }
