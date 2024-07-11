@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('../models/usuario.model.php');
+require_once('../models/usuarios.model.php');
 
 $usuario = new Clase_Usuarios();
 
