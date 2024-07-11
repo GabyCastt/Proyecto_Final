@@ -1,5 +1,5 @@
 <?php
-// models/miembros_grupo.php
+require_once('../config/conexion.php');
 
 class Clase_Miembros_Grupo
 {

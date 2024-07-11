@@ -1,8 +1,5 @@
 <?php
-// controllers/miembros_grupos.controller.php
-
-// Incluir la configuración de la conexión a la base de datos
-require_once('../config/conexion.php'); // Asegúrate de que la ruta sea correcta según la estructura de tus archivos
+require_once('../config/conexion.php');
 require_once('../models/miembros_grupos.model.php');
 
 session_start();
@@ -11,10 +8,8 @@ session_start();
 $conectar = new Clase_Conectar();
 $conexion = $conectar->Procedimiento_Conectar();
 
-// Crear una instancia del modelo MiembrosGrupo, pasando la conexión como parámetro
-$miembrosGrupo = new MiembrosGrupo($conexion);
+$grupo = new Clase_Miembros_Grupo($conexion);
 
-// Manejo de las peticiones GET y POST
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['accion'])) {
         switch ($_GET['accion']) {
