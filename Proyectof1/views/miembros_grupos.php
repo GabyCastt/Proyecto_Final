@@ -40,28 +40,25 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalAgregarMiembroLabel">Agregar Miembro a Grupo</h5>
+                    <h5 class="modal-title" id="modalAgregarMiembroLabel">Agregar Miembro</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="selectGruposModal">Seleccione el Grupo:</label>
-                        <select id="selectGruposModal" class="form-control">
-                            <!-- Options cargados dinámicamente por JavaScript -->
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="selectAmigos">Seleccione el Amigo:</label>
-                        <select id="selectAmigos" class="form-control">
-                            <!-- Options cargados dinámicamente por JavaScript -->
-                        </select>
-                    </div>
+                    <form id="formAgregarMiembro">
+                        <div class="form-group">
+                            <label for="selectAmigos">Amigos</label>
+                            <select id="selectAmigos" class="form-control">
+                                <!-- Options cargados dinámicamente por JavaScript -->
+                            </select>
+                        </div>
+                        <input type="hidden" id="idGrupoSeleccionado">
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button id="btnGuardarMiembro" type="button" class="btn btn-primary">Guardar Cambios</button>
+                    <button type="button" id="btnGuardarMiembro" class="btn btn-primary">Guardar</button>
                 </div>
             </div>
         </div>
@@ -69,6 +66,6 @@
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="./miembros_grupo.js"></script>
+    <script src="miembros_grupo.js"></script>
 </body>
 </html>

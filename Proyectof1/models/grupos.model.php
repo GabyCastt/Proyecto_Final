@@ -1,82 +1,76 @@
 <?php
 require_once('../config/conexion.php');
-class Clase_Grupos
+
+class Clase_Miembros_Grupo
 {
-    public function todos()
+    private $conexion;
+
+    public function __construct($conexion)
     {
-        $con = new Clase_Conectar();
-        $conexion = $con->Procedimiento_Conectar();
+        $this->conexion = $conexion;
+    }
+
+    public function obtenerGrupos()
+    {
         $query = "SELECT * FROM grupos";
-        $resultado = mysqli_query($conexion, $query);
+        $resultado = mysqli_query($this->conexion, $query);
         if (!$resultado) {
-            throw new Exception("Error al listar grupos: " . mysqli_error($conexion));
+            throw new Exception("Error al listar grupos: " . mysqli_error($this->conexion));
         }
         return $resultado;
     }
-    public function uno($id_grupo)
+
+    public function obtenerMiembrosGrupo($id_grupo)
     {
-        $con = new Clase_Conectar();
-        $conexion = $con->Procedimiento_Conectar();
-        $query = "SELECT * FROM grupos WHERE id_grupo = ?";
-        $stmt = mysqli_prepare($conexion, $query);
+        $query = "SELECT Usuarios.nombre, Usuarios.apellido FROM Miembros_Grupo 
+                  JOIN Usuarios ON Miembros_Grupo.id_usuario = Usuarios.id_usuario
+                  WHERE Miembros_Grupo.id_grupo = ?";
+        $stmt = mysqli_prepare($this->conexion, $query);
         mysqli_stmt_bind_param($stmt, "i", $id_grupo);
         mysqli_stmt_execute($stmt);
         $resultado = mysqli_stmt_get_result($stmt);
         if (!$resultado) {
-            throw new Exception("Error al obtener grupo: " . mysqli_error($conexion));
+            throw new Exception("Error al obtener miembros del grupo: " . mysqli_error($this->conexion));
         }
         return $resultado;
     }
-    public function insertar($nombre_grupo, $descripcion)
-    {
-        $con = new Clase_Conectar();
-        $conexion = $con->Procedimiento_Conectar();
-        $query = "INSERT INTO `grupos`(`nombre_grupo`, `descripcion`) VALUES (?, ?)";
-        $stmt = mysqli_prepare($conexion, $query);
-        mysqli_stmt_bind_param($stmt, "ss", $nombre_grupo, $descripcion);
-        $resultado = mysqli_stmt_execute($stmt);
-        if (!$resultado) {
-            throw new Exception("Error al insertar grupo: " . mysqli_error($conexion));
-        }
-        return $resultado;
-    }
-    public function actualizar($id_grupo, $nombre_grupo, $descripcion)
-    {
-        $con = new Clase_Conectar();
-        $conexion = $con->Procedimiento_Conectar();
-        $query = "UPDATE grupos SET nombre_grupo = ?, descripcion = ? WHERE id_grupo = ?";
-        $stmt = mysqli_prepare($conexion, $query);
-        mysqli_stmt_bind_param($stmt, "ssi", $nombre_grupo, $descripcion, $id_grupo);
-        $resultado = mysqli_stmt_execute($stmt);
-        if (!$resultado) {
-            throw new Exception("Error al actualizar grupo: " . mysqli_error($conexion));
-        }
-        return $resultado;
-    }
-    public function eliminar($id_grupo)
-    {
-        $con = new Clase_Conectar();
-        $conexion = $con->Procedimiento_Conectar();
-        $query = "DELETE FROM grupos WHERE id_grupo = ?";
-        $stmt = mysqli_prepare($conexion, $query);
-        mysqli_stmt_bind_param($stmt, "i", $id_grupo);
-        $resultado = mysqli_stmt_execute($stmt);
-        if (!$resultado) {
-            throw new Exception("Error al eliminar grupo: " . mysqli_error($conexion));
-        }
-        return $resultado;
-    }
-    public function obtenerNombresGrupos()
-    {
-        $con = new Clase_Conectar();
-        $conexion = $con->Procedimiento_Conectar();
-        $query = "SELECT id_grupo, nombre_grupo, descripcion FROM grupos";
-        $resultado = mysqli_query($conexion, $query);
 
+    public function obtenerAmigos($id_usuario)
+    {
+        $query = "SELECT Usuarios.id_usuario, Usuarios.nombre, Usuarios.apellido FROM Amigos 
+                  JOIN Usuarios ON (Amigos.id_usuario1 = Usuarios.id_usuario OR Amigos.id_usuario2 = Usuarios.id_usuario)
+                  WHERE (Amigos.id_usuario1 = ? OR Amigos.id_usuario2 = ?) AND Usuarios.id_usuario != ?";
+        $stmt = mysqli_prepare($this->conexion, $query);
+        mysqli_stmt_bind_param($stmt, "iii", $id_usuario, $id_usuario, $id_usuario);
+        mysqli_stmt_execute($stmt);
+        $resultado = mysqli_stmt_get_result($stmt);
         if (!$resultado) {
-            throw new Exception("Error al obtener nombres de grupos: " . mysqli_error($conexion));
+            throw new Exception("Error al obtener amigos del usuario: " . mysqli_error($this->conexion));
         }
+        return $resultado;
+    }
 
+    public function agregarMiembroGrupo($id_grupo, $id_usuario)
+    {
+        $query = "INSERT INTO Miembros_Grupo (id_grupo, id_usuario, fecha_union) VALUES (?, ?, NOW())";
+        $stmt = mysqli_prepare($this->conexion, $query);
+        mysqli_stmt_bind_param($stmt, "ii", $id_grupo, $id_usuario);
+        $resultado = mysqli_stmt_execute($stmt);
+        if (!$resultado) {
+            throw new Exception("Error al agregar miembro al grupo: " . mysqli_error($this->conexion));
+        }
+        return $resultado;
+    }
+
+    public function eliminarMiembroGrupo($id_miembro)
+    {
+        $query = "DELETE FROM Miembros_Grupo WHERE id_miembro = ?";
+        $stmt = mysqli_prepare($this->conexion, $query);
+        mysqli_stmt_bind_param($stmt, "i", $id_miembro);
+        $resultado = mysqli_stmt_execute($stmt);
+        if (!$resultado) {
+            throw new Exception("Error al eliminar miembro del grupo: " . mysqli_error($this->conexion));
+        }
         return $resultado;
     }
 }
