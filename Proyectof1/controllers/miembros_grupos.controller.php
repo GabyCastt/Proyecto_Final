@@ -1,12 +1,9 @@
 <?php
 require_once('../config/conexion.php');
 require_once('../models/miembros_grupos.model.php');
-<<<<<<< HEAD
 
 session_start();
 $id_usuario = $_SESSION['id_usuario']; // Suponiendo que el ID del usuario logueado se guarda en la sesión
-=======
->>>>>>> a34e76c2ca199f4cb95f571fa943e70e69029000
 
 // Crear instancia de la clase de conexión
 $conectar = new Clase_Conectar();
@@ -35,7 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         }
         echo json_encode($miembros);
     }
-<<<<<<< HEAD
 
     // Obtener amigos del usuario logueado
     elseif (isset($_GET['accion']) && $_GET['accion'] === 'obtenerAmigos') {
@@ -49,9 +45,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 }
 
 elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
-=======
-} elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
->>>>>>> a34e76c2ca199f4cb95f571fa943e70e69029000
     // Agregar miembro a un grupo
     if (isset($_POST['accion']) && $_POST['accion'] === 'agregarMiembroGrupo') {
         $id_grupo = $_POST['id_grupo'];
