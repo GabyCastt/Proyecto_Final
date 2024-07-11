@@ -80,4 +80,4 @@ class Clase_Grupos
         return $resultado;
     }
 }
-?>
+

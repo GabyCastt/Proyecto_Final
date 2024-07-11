@@ -1,6 +1,6 @@
 <?php
-require_once ('../config/conexion.php');
-require_once ('../models/miembros_grupos.model.php');
+require_once('../config/conexion.php');
+require_once('../models/miembros_grupos.model.php');
 
 // Crear instancia de la clase de conexión
 $conectar = new Clase_Conectar();
@@ -29,9 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         }
         echo json_encode($miembros);
     }
-}
-
-elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+} elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Agregar miembro a un grupo
     if (isset($_POST['accion']) && $_POST['accion'] === 'agregarMiembroGrupo') {
         $id_grupo = $_POST['id_grupo'];
@@ -53,4 +51,3 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-?>
