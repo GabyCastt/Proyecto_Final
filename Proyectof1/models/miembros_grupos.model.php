@@ -3,59 +3,60 @@ require_once('../config/conexion.php');
 
 class Clase_Miembros_Grupo
 {
-    private $conn;
+    private $conexion;
 
     public function __construct($conexion)
     {
-        $this->conn = $conexion->conexion; // Usamos la propiedad $conexion->conexion de Clase_Conectar
+        $this->conexion = $conexion;
     }
 
-    // Función para obtener todos los grupos
     public function obtenerGrupos()
     {
-        $query = "SELECT id_grupo, nombre_grupo FROM Grupos";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt;
+        $query = "SELECT * FROM Grupos";
+        $resultado = mysqli_query($this->conexion, $query);
+        return $resultado;
     }
 
-    // Función para obtener los miembros de un grupo dado
     public function obtenerMiembrosGrupo($id_grupo)
     {
-        $query = "SELECT u.nombre, u.apellido 
-                  FROM Usuarios u 
-                  JOIN miembros_grupo mg ON u.id_usuario = mg.id_usuario 
+        $query = "SELECT u.id_usuario, u.nombre, u.apellido 
+                  FROM Miembros_Grupo mg 
+                  JOIN Usuarios u ON mg.id_usuario = u.id_usuario 
                   WHERE mg.id_grupo = ?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("i", $id_grupo);
-        $stmt->execute();
-        return $stmt;
+        $stmt = mysqli_prepare($this->conexion, $query);
+        mysqli_stmt_bind_param($stmt, "i", $id_grupo);
+        mysqli_stmt_execute($stmt);
+        $resultado = mysqli_stmt_get_result($stmt);
+        return $resultado;
     }
 
-    // Función para agregar un usuario a un grupo
+    public function obtenerAmigosUsuario($id_usuario)
+    {
+        $query = "SELECT u.id_usuario, u.nombre, u.apellido 
+                  FROM Amigos a 
+                  JOIN Usuarios u ON (a.id_usuario1 = u.id_usuario OR a.id_usuario2 = u.id_usuario) 
+                  WHERE (a.id_usuario1 = ? OR a.id_usuario2 = ?) AND u.id_usuario != ?";
+        $stmt = mysqli_prepare($this->conexion, $query);
+        mysqli_stmt_bind_param($stmt, "iii", $id_usuario, $id_usuario, $id_usuario);
+        mysqli_stmt_execute($stmt);
+        $resultado = mysqli_stmt_get_result($stmt);
+        return $resultado;
+    }
+
     public function agregarMiembroGrupo($id_grupo, $id_usuario)
     {
-        $query = "INSERT INTO miembros_grupo (id_grupo, id_usuario, fecha_union) 
-                  VALUES (?, ?, NOW())";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("ii", $id_grupo, $id_usuario);
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
-        }
+        $query = "INSERT INTO Miembros_Grupo (id_grupo, id_usuario, fecha_union) VALUES (?, ?, NOW())";
+        $stmt = mysqli_prepare($this->conexion, $query);
+        mysqli_stmt_bind_param($stmt, "ii", $id_grupo, $id_usuario);
+        return mysqli_stmt_execute($stmt);
     }
 
-    // Función para eliminar un usuario de un grupo
     public function eliminarMiembroGrupo($id_miembro)
     {
-        $query = "DELETE FROM miembros_grupo WHERE id_miembro = ?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("i", $id_miembro);
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
-        }
+        $query = "DELETE FROM Miembros_Grupo WHERE id_miembro = ?";
+        $stmt = mysqli_prepare($this->conexion, $query);
+        mysqli_stmt_bind_param($stmt, "i", $id_miembro);
+        return mysqli_stmt_execute($stmt);
     }
 }
+?>
