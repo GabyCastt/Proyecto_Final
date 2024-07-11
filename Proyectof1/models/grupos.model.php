@@ -31,7 +31,7 @@ class Clase_Grupos
     {
         $con = new Clase_Conectar();
         $conexion = $con->Procedimiento_Conectar();
-        $query = "INSERT INTO `grupos`(`nombre_grupo`, `descripcion`) VALUES (?, ?)";
+        $query = "INSERT INTO grupos(nombre_grupo, descripcion) VALUES (?, ?)";
         $stmt = mysqli_prepare($conexion, $query);
         mysqli_stmt_bind_param($stmt, "ss", $nombre_grupo, $descripcion);
         $resultado = mysqli_stmt_execute($stmt);
@@ -80,4 +80,3 @@ class Clase_Grupos
         return $resultado;
     }
 }
-

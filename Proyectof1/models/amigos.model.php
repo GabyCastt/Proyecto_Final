@@ -10,7 +10,7 @@ class Amigos_Model {
     }
 
     public function listarAmigos($id_usuario) {
-        $sql = "SELECT u.id_usuario, u.nombre, u.apellido 
+        $sql = "SELECT u.id_usuario, u.nombre, u.apellido
                 FROM Amigos a
                 JOIN Usuarios u ON (a.id_usuario1 = u.id_usuario OR a.id_usuario2 = u.id_usuario)
                 WHERE (a.id_usuario1 = ? OR a.id_usuario2 = ?) AND u.id_usuario != ?";
@@ -21,10 +21,15 @@ class Amigos_Model {
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function listarAmigosUsuarioActual($id_usuario) {
+        // Este método es idéntico a listarAmigos, así que podemos llamar a ese método
+        return $this->listarAmigos($id_usuario);
+    }
+
     public function buscarUsuarios($busqueda, $id_usuario) {
         $busqueda = "%$busqueda%";
-        $sql = "SELECT id_usuario, nombre, apellido 
-                FROM Usuarios 
+        $sql = "SELECT id_usuario, nombre, apellido
+                FROM Usuarios
                 WHERE (nombre LIKE ? OR apellido LIKE ?) AND id_usuario != ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("ssi", $busqueda, $busqueda, $id_usuario);

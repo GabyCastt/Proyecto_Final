@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (!isset($_SESSION['usuario'])) {
+    header('Location: ../index.php');
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,6 +16,7 @@
 
 <body>
     <div class="container mt-5">
+<<<<<<< HEAD
         <h1 class="mb-4">Gestión de Miembros de Grupo</h1>
 
         <!-- Select para elegir grupo -->
@@ -27,6 +35,31 @@
             </thead>
             <tbody id="listaMiembros"></tbody>
         </table>
+=======
+        <h2>Mis Grupos y Miembros</h2>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <select id="selectGrupos" class="form-control">
+                    <!-- Options cargados dinámicamente por JavaScript -->
+                </select>
+            </div>
+            <div class="col-md-6">
+                <button id="btnAgregarMiembro" class="btn btn-primary">Agregar Miembro</button>
+            </div>
+        </div>
+        <table id="tablaGrupos" class="table">
+            <thead>
+                <tr>
+                    <th>Nombre del Grupo</th>
+                    <th>Integrantes</th>
+                </tr>
+            </thead>
+            <tbody id="listaMiembros">
+                <!-- Miembros del grupo cargados dinámicamente por JavaScript -->
+            </tbody>
+        </table>
+    </div>
+>>>>>>> 05b22097c6d7fd8551f2fbc1c0a67bf5c12c9c6f
 
         <!-- Botón para abrir modal de agregar miembro -->
         <button id="btnAgregarMiembro" class="btn btn-primary">Agregar Miembro</button>
@@ -61,10 +94,16 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<<<<<<< HEAD
     <script src="./miembros_grupo.js"></script>
     <script src="./grupos.js"></script>
     <script src="./amigos.js"></script>
 </body>
 
+=======
+    <script src="miembros_grupos.js"></script>
+</body>
+>>>>>>> 05b22097c6d7fd8551f2fbc1c0a67bf5c12c9c6f
 </html>

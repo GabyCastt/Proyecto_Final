@@ -10,7 +10,7 @@ class Clase_Conectar
     private $clave = "";  // Sin contraseña, asegurarse de que esté exactamente así, sin espacios.
     private $base = "ejercicio_calvache_castillo";
 
-    private $port = 3306; // Especificar el puerto MySQL personalizado
+    private $port = 3307; // Especificar el puerto MySQL personalizado
 
     public function Procedimiento_Conectar()
     {
