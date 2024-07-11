@@ -19,11 +19,11 @@
             <a href="./grupos.php" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Grupos</a>
             <a href='./publicaciones.php' class='nav-item nav-link'><i class='fa fa-th me-2'></i>Publicación</a>
           
-            <a href="./dashboard.php" class='nav-item nav-link'><i class='fa fa-th me-2'></i>Ejemplo</a>
-            <a href="./dashboard.php" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Ejemplo</a>
-            <a href="./dashboard.php" class='nav-item nav-link'><i class='fa fa-th me-2'></i>Ejemplo</a>
-            <a href="./dashboard.php" class='nav-item nav-link'><i class='fa fa-th me-2'></i>Ejemplo</a>
-            <a href="./dashboard.php" class='nav-item nav-link'><i class='fa fa-th me-2'></i>Ejemplo</a>
+            <a href="./dashboard.php" class='nav-item nav-link'><i class='fa fa-th me-2'></i>1</a>
+            <a href="./dashboard.php" class="nav-item nav-link"><i class="fa fa-th me-2"></i>2</a>
+            <a href="./dashboard.php" class='nav-item nav-link'><i class='fa fa-th me-2'></i>3</a>
+            <a href="./dashboard.php" class='nav-item nav-link'><i class='fa fa-th me-2'></i>4</a>
+            <a href="./dashboard.php" class='nav-item nav-link'><i class='fa fa-th me-2'></i>5</a>
            
         </div>
     </nav>
