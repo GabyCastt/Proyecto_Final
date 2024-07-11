@@ -30,7 +30,8 @@
         </tbody>
     </table>
 </div>
-
+<a href="dashboard.php" class="btn btn-primary">Regresar al Dashboard</a>
+               
 <!-- Modal para agregar y editar grupo -->
 <div class="modal fade" id="modalGrupo" tabindex="-1" role="dialog" aria-labelledby="modalGrupoLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -58,6 +59,8 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-primary" onclick="guardarGrupo()">Guardar</button>
+               
+            </div>
             </div>
         </div>
     </div>
