@@ -1,23 +1,56 @@
 <?php
+require_once ('../config/conexion.php');
+require_once ('../models/miembros_grupos.model.php');
 
-require_once('../models/miembros_grupos.model.php');
+// Crear instancia de la clase de conexión
+$conectar = new Clase_Conectar();
+$conexion = $conectar->Procedimiento_Conectar();
 
-class ControladorMiembrosGrupos {
-    private $modeloMiembrosGrupo;
+$grupo = new Clase_Miembros_Grupo($conexion);
 
-    public function __construct() {
-        $this->modeloMiembrosGrupo = new ModeloMiembrosGrupo();
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    // Obtener todos los grupos
+    if (isset($_GET['accion']) && $_GET['accion'] === 'obtenerGrupos') {
+        $resultado = $grupo->obtenerGrupos();
+        $grupos = array();
+        while ($row = $resultado->fetch_assoc()) {
+            $grupos[] = $row;
+        }
+        echo json_encode($grupos);
     }
 
-    public function obtenerAmigosComoMiembros($idUsuario) {
-        return $this->modeloMiembrosGrupo->obtenerAmigosComoMiembros($idUsuario);
+    // Obtener miembros de un grupo
+    elseif (isset($_GET['accion']) && $_GET['accion'] === 'obtenerMiembrosGrupo' && isset($_GET['id_grupo'])) {
+        $id_grupo = $_GET['id_grupo'];
+        $resultado = $grupo->obtenerMiembrosGrupo($id_grupo);
+        $miembros = array();
+        while ($row = $resultado->fetch_assoc()) {
+            $miembros[] = $row;
+        }
+        echo json_encode($miembros);
     }
-
-    public function agregarMiembroAGrupo($idGrupo, $idUsuario) {
-        return $this->modeloMiembrosGrupo->agregarMiembroAGrupo($idGrupo, $idUsuario);
-    }
-
-    // Puedes agregar más funciones aquí según sea necesario
 }
 
+elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Agregar miembro a un grupo
+    if (isset($_POST['accion']) && $_POST['accion'] === 'agregarMiembroGrupo') {
+        $id_grupo = $_POST['id_grupo'];
+        $id_usuario = $_POST['id_usuario'];
+        if ($grupo->agregarMiembroGrupo($id_grupo, $id_usuario)) {
+            echo json_encode(array("success" => true));
+        } else {
+            echo json_encode(array("success" => false));
+        }
+    }
+
+    // Eliminar miembro de un grupo
+    elseif (isset($_POST['accion']) && $_POST['accion'] === 'eliminarMiembroGrupo') {
+        $id_miembro = $_POST['id_miembro'];
+        if ($grupo->eliminarMiembroGrupo($id_miembro)) {
+            echo json_encode(array("success" => true));
+        } else {
+            echo json_encode(array("success" => false));
+        }
+    }
+}
 ?>
