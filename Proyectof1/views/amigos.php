@@ -59,7 +59,7 @@ $amigos = $controller->listarAmigos($id_usuario);
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <h1 class="display-4">*GESTIÓN DE AMIGOS*</h1>
+                                <h1 class="display-4">GESTIÓN DE AMIGOS</h1>
                                 <p class="lead">Busca y gestiona tus amigos</p>
                                 <div class="mb-3">
                                     <input type="text" id="buscarUsuario" class="form-control" placeholder="Buscar usuarios...">
