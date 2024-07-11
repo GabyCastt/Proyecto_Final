@@ -53,11 +53,67 @@ $usuario_nombre = $_SESSION['usuario']['nombre'];
 </head>
 
 <body>
+<<<<<<< HEAD
     <div class='container-xxl position-relative bg-white d-flex p-0'>
         <!-- Spinner Start -->
         <div id='spinner' class='show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center'>
             <div class='spinner-border text-primary' style='width: 3rem; height: 3rem;' role='status'>
                 <span class='sr-only'>Cargando...</span>
+=======
+
+<div class="container mt-5">
+    <h1 class="mb-4">Administrar Grupos</h1>
+    
+    <!-- Botón para abrir modal de agregar grupo -->
+    <button type="button" class="btn btn-primary mb-3" onclick="abrirModalAgregar()">Nuevo Grupo</button>
+    
+    <!-- Tabla para listar grupos -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="listaGrupos">
+            <!-- Aquí se cargarán dinámicamente los grupos -->
+        </tbody>
+    </table>
+</div>
+<a href="dashboard.php" class="btn btn-primary">Regresar al Dashboard</a>
+               
+<!-- Modal para agregar y editar grupo -->
+<div class="modal fade" id="modalGrupo" tabindex="-1" role="dialog" aria-labelledby="modalGrupoLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalGrupoLabel">Nuevo Grupo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulario para agregar o editar grupo -->
+                <form id="formGrupo">
+                    <input type="hidden" id="grupoId">
+                    <div class="form-group">
+                        <label for="nombre_grupo">Nombre del Grupo</label>
+                        <input type="text" class="form-control" id="nombre_grupo" name="nombre_grupo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="descripcion">Descripción</label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="guardarGrupo()">Guardar</button>
+               
+            </div>
+>>>>>>> 37876d8c841bbc6bd6562b7bd36eaf02e1b5c471
             </div>
         </div>
         <!-- Spinner End -->
