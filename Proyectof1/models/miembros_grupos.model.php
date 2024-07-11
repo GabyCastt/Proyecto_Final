@@ -1,44 +1,40 @@
 <?php
-require_once('../config/conexion.php');
+// models/miembros_grupo.php
 
-class Clase_Miembros_Grupo
-{
-    private $conn;
+class MiembrosGrupo {
+    private $conexion;
 
-    public function __construct($conexion)
-    {
-        $this->conn = $conexion->conexion; // Usamos la propiedad $conexion->conexion de Clase_Conectar
+    public function __construct($db) {
+        $this->conexion = $db;
     }
 
-    // Función para obtener todos los grupos
-    public function obtenerGrupos()
-    {
-        $query = "SELECT id_grupo, nombre_grupo FROM Grupos";
-        $stmt = $this->conn->prepare($query);
+    // Función para obtener los miembros de un grupo específico
+    public function obtenerMiembrosGrupo($idGrupo) {
+        $query = "SELECT u.id_usuario, u.nombre, u.apellido, mg.id_miembro
+                  FROM Usuarios u
+                  INNER JOIN Miembros_Grupo mg ON u.id_usuario = mg.id_usuario
+                  WHERE mg.id_grupo = ?
+                  ORDER BY u.nombre";
+
+        $stmt = $this->conexion->prepare($query);
+        $stmt->bind_param("i", $idGrupo);
         $stmt->execute();
-        return $stmt;
+        $result = $stmt->get_result();
+
+        $miembros = array();
+        while ($row = $result->fetch_assoc()) {
+            $miembros[] = $row;
+        }
+        return $miembros;
     }
 
-    // Función para obtener los miembros de un grupo dado
-    public function obtenerMiembrosGrupo($id_grupo)
-    {
-        $query = "SELECT u.nombre, u.apellido 
-                  FROM Usuarios u 
-                  JOIN miembros_grupo mg ON u.id_usuario = mg.id_usuario 
-                  WHERE mg.id_grupo = ?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("i", $id_grupo);
-        $stmt->execute();
-        return $stmt;
-    }
-
-    // Función para agregar un usuario a un grupo
-    public function agregarMiembroGrupo($id_grupo, $id_usuario)
-    {
-        $query = "INSERT INTO miembros_grupo (id_grupo, id_usuario, fecha_union) 
+    // Función para agregar un nuevo miembro a un grupo
+    public function agregarMiembroGrupo($idGrupo, $idUsuario) {
+        $query = "INSERT INTO Miembros_Grupo (id_grupo, id_usuario, fecha_union)
                   VALUES (?, ?, NOW())";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("ii", $id_grupo, $id_usuario);
+
+        $stmt = $this->conexion->prepare($query);
+        $stmt->bind_param("ii", $idGrupo, $idUsuario);
         if ($stmt->execute()) {
             return true;
         } else {
@@ -46,12 +42,12 @@ class Clase_Miembros_Grupo
         }
     }
 
-    // Función para eliminar un usuario de un grupo
-    public function eliminarMiembroGrupo($id_miembro)
-    {
-        $query = "DELETE FROM miembros_grupo WHERE id_miembro = ?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("i", $id_miembro);
+    // Función para eliminar un miembro de un grupo
+    public function eliminarMiembroGrupo($idMiembro) {
+        $query = "DELETE FROM Miembros_Grupo WHERE id_miembro = ?";
+
+        $stmt = $this->conexion->prepare($query);
+        $stmt->bind_param("i", $idMiembro);
         if ($stmt->execute()) {
             return true;
         } else {
@@ -59,3 +55,4 @@ class Clase_Miembros_Grupo
         }
     }
 }
+?>

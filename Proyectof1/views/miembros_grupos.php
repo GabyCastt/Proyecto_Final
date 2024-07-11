@@ -1,67 +1,60 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Gestión de Grupos y Miembros</title>
+    <title>Gestión de Miembros de Grupo</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
+
 <body>
     <div class="container mt-5">
-        <h2>Mis Grupos y Miembros</h2>
-        <table class="table">
+        <h1 class="mb-4">Gestión de Miembros de Grupo</h1>
+
+        <!-- Select para elegir grupo -->
+        <div class="form-group">
+            <label for="selectGrupos">Seleccionar Grupo:</label>
+            <select id="selectGrupos" class="form-control"></select>
+        </div>
+
+        <!-- Tabla para listar miembros -->
+        <table class="table table-bordered mt-3">
             <thead>
                 <tr>
-                    <th>Grupo</th>
-                    <th>Miembros</th>
+                    <th>Nombre</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <select id="selectGrupos" class="form-control">
-                            <!-- Options cargados dinámicamente por JavaScript -->
-                        </select>
-                    </td>
-                    <td>
-                        <table class="table">
-                            <tbody id="listaMiembros">
-                                <!-- Miembros del grupo cargados dinámicamente por JavaScript -->
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-            </tbody>
+            <tbody id="listaMiembros"></tbody>
         </table>
-        <button id="btnAgregarMiembro" class="btn btn-primary">Agregar Miembro</button>
-    </div>
 
-    <!-- Modal para agregar miembro a un grupo -->
-    <div class="modal fade" id="modalAgregarMiembro" tabindex="-1" role="dialog" aria-labelledby="modalAgregarMiembroLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalAgregarMiembroLabel">Agregar Miembro a Grupo</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="selectGruposModal">Seleccione el Grupo:</label>
-                        <select id="selectGruposModal" class="form-control">
-                            <!-- Options cargados dinámicamente por JavaScript -->
-                        </select>
+        <!-- Botón para abrir modal de agregar miembro -->
+        <button id="btnAgregarMiembro" class="btn btn-primary">Agregar Miembro</button>
+
+        <!-- Modal para agregar miembro -->
+        <div class="modal fade" id="modalAgregarMiembro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Agregar Miembro al Grupo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    <div class="form-group">
-                        <label for="selectAmigos">Seleccione el Amigo:</label>
-                        <select id="selectAmigos" class="form-control">
-                            <!-- Options cargados dinámicamente por JavaScript -->
-                        </select>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="selectGruposModal">Seleccionar Grupo:</label>
+                            <select id="selectGruposModal" class="form-control"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="selectAmigos">Seleccionar Amigo:</label>
+                            <select id="selectAmigos" class="form-control"></select>
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button id="btnGuardarMiembro" type="button" class="btn btn-primary">Guardar Cambios</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="button" id="btnGuardarMiembro" class="btn btn-primary">Guardar</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -70,5 +63,8 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="./miembros_grupo.js"></script>
+    <script src="./grupos.js"></script>
+    <script src="./amigos.js"></script>
 </body>
+
 </html>

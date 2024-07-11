@@ -76,8 +76,8 @@ $usuario_nombre = $_SESSION['usuario']['nombre'];
 
             <div class='container-fluid pt-4 px-4'>
                 <div class='welcome-hero'>
-                    <h1 class='display-3 fw-bold'>BIENVENIDO, <?php echo htmlspecialchars($usuario_nombre);?>!</h1>
-                    <p class='lead'>MÁS CONECTADOS, MÁS INFORMADOS</p>
+                    <h1 class='display-3 fw-bold'> BIENVENID@, <?php echo htmlspecialchars($usuario_nombre);?>!</h1>
+                    <p class='lead'> MÁS CONECTADOS, MÁS INFORMADOS</p>
                 </div>
 
                 <div class='d-flex align-items-center justify-content-between mb-4'>

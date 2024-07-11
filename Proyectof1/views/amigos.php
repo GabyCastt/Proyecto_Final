@@ -14,6 +14,7 @@ $amigos = $controller->listarAmigos($id_usuario);
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <?php require_once('./html/head.php') ?>
     <link href="../public/lib/calendar/lib/main.css" rel="stylesheet" />
@@ -27,12 +28,36 @@ $amigos = $controller->listarAmigos($id_usuario);
             display: flex;
             align-items: center;
         }
+
         .custom-flatpickr input {
             margin-right: 5px;
             flex: 1;
         }
+
+        .welcome-hero {
+            background-image: linear-gradient(to bottom, #34C759, #2E865F);
+            background-size: 100% 300px;
+            background-position: 0% 100%;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        .welcome-hero h1 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .welcome-hero p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
+
 <body>
     <div class="container-xxl position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
@@ -53,8 +78,12 @@ $amigos = $controller->listarAmigos($id_usuario);
             <?php require_once('./html/header.php') ?>
             <!-- Navbar End -->
 
-            <!-- Amigos Start -->
             <div class="container-fluid pt-4 px-4">
+                <div class="welcome-hero">
+                    <h1 class="display-3 fw-bold">BIENVENID@, <?php echo htmlspecialchars($_SESSION['usuario']['nombre']); ?>!</h1>
+                    <p class="lead">TE ENCUENTRAS EN GESTIÓN DE AMIGOS!</p>
+                </div>
+
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
@@ -79,7 +108,6 @@ $amigos = $controller->listarAmigos($id_usuario);
                     </div>
                 </div>
             </div>
-            <!-- Amigos End -->
 
             <div class="container mt-3">
                 <a href="dashboard.php" class="btn btn-primary">Regresar al Menú</a>
@@ -92,10 +120,11 @@ $amigos = $controller->listarAmigos($id_usuario);
         <!-- Content End -->
 
         <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="fa fa-angle-double-up"></i></a>
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- JavaScript Libraries -->
+    <?php require_once('./html/scripts.php') ?>
     <script src="amigos.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -108,4 +137,5 @@ $amigos = $controller->listarAmigos($id_usuario);
         });
     </script>
 </body>
+
 </html>

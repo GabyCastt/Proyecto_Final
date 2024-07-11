@@ -7,12 +7,12 @@ require_once('models/usuarios.model.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $usuario = new Clase_Usuarios();
-    
+
     if (isset($_POST['login'])) {
         $correo_electronico = $_POST['correo_electronico'];
         $contrasena = $_POST['contrasena'];
         $resultado = $usuario->login($correo_electronico, $contrasena);
-        
+
         if ($resultado) {
             $_SESSION['usuario'] = $resultado;
             header('Location: views/dashboard.php');
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $correo_electronico = $_POST['correo_electronico'];
         $contrasena = $_POST['contrasena'];
         $resultado = $usuario->registrar($nombre, $apellido, $correo_electronico, $contrasena);
-        
+
         if ($resultado) {
             header('Location: index.php?registro=1');
             exit();
@@ -41,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,8 +49,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            background: linear-gradient(to right, #9B73D8, #F07AB3); /* Gradient background */
-            font-family: 'Montserrat', sans-serif; /* Font family */
+            background: linear-gradient(to right, #9B73D8, #F07AB3);
+            /* Gradient background */
+            font-family: 'Montserrat', sans-serif;
+            /* Font family */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -58,7 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         .container {
-            background-color: rgba(255, 255, 255, 0.8); /* Transparent background */
+            background-color: rgba(255, 255, 255, 0.8);
+            /* Transparent background */
             border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
             padding: 30px;
@@ -73,7 +77,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             margin-bottom: 20px;
         }
 
-        input[type="text"], input[type="password"] {
+        input[type="text"],
+        input[type="password"] {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
@@ -85,7 +90,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         input[type="submit"] {
-            background-color: #9B73D8; /* Purple button */
+            background-color: #9B73D8;
+            /* Purple button */
             color: white;
             padding: 12px 20px;
             border: none;
@@ -96,7 +102,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         a {
-            color: #9B73D8; /* Purple link */
+            color: #9B73D8;
+            /* Purple link */
             text-decoration: none;
             font-size: 16px;
         }
@@ -106,6 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h2>Login</h2>
@@ -134,4 +142,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ?>
     </div>
 </body>
+
 </html>

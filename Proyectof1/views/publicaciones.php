@@ -31,6 +31,7 @@ if (isset($_GET['id_publicacion'])) {
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <?php require_once('./html/head.php') ?>
     <link href="../public/lib/calendar/lib/main.css" rel="stylesheet" />
@@ -44,12 +45,14 @@ if (isset($_GET['id_publicacion'])) {
             display: flex;
             align-items: center;
         }
+
         .custom-flatpickr input {
             margin-right: 5px;
             flex: 1;
         }
     </style>
 </head>
+
 <body>
     <div class="container-xxl position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
@@ -101,10 +104,10 @@ if (isset($_GET['id_publicacion'])) {
                             </div>
                             <div class="card-body">
                                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                                    <?php if ($publicacion): ?>
+                                    <?php if ($publicacion) : ?>
                                         <input type="hidden" name="id_publicacion" value="<?php echo $publicacion['id_publicacion']; ?>">
                                         <input type="hidden" name="editar">
-                                    <?php else: ?>
+                                    <?php else : ?>
                                         <input type="hidden" name="crear">
                                     <?php endif; ?>
 
@@ -140,7 +143,7 @@ if (isset($_GET['id_publicacion'])) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach ($controller->listarPublicaciones() as $pub): ?>
+                                        <?php foreach ($controller->listarPublicaciones() as $pub) : ?>
                                             <tr>
                                                 <td><?php echo htmlspecialchars($pub['id_publicacion']); ?></td>
                                                 <td><?php echo htmlspecialchars($pub['titulo']); ?></td>
@@ -177,7 +180,7 @@ if (isset($_GET['id_publicacion'])) {
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             flatpickr('.custom-flatpickr', {
                 enableTime: true,
                 dateFormat: 'Y-m-d H:i',
@@ -201,7 +204,7 @@ if (isset($_GET['id_publicacion'])) {
                 }
             });
 
-            setTimeout(function () {
+            setTimeout(function() {
                 var spinner = document.getElementById('spinner');
                 if (spinner) {
                     spinner.classList.remove('show');
@@ -210,4 +213,5 @@ if (isset($_GET['id_publicacion'])) {
         });
     </script>
 </body>
+
 </html>
