@@ -112,6 +112,7 @@ function eliminarGrupo(idGrupo) {
     }
 }
 
+
 // Función para cargar la lista de grupos solo con nombres
 function obtenerNombresGrupos() {
     $.ajax({

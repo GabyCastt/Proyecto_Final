@@ -74,4 +74,4 @@ class Clase_Miembros_Grupo
         return $resultado;
     }
 }
-?>
+
