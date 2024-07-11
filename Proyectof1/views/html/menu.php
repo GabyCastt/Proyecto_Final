@@ -1,4 +1,4 @@
-<div class='sidebar pe-4 pb-3'>
+<div class='sidebar pe-6 pb-3'>
     <nav class='navbar bg-dark navbar-light'>
         <a href='../Dashboard/' class='navbar-brand mx-4 mb-3'>
             <h3 class='text-primary'><i class='fa fa-hashtag me-2'></i>PROYECTO</h3>
